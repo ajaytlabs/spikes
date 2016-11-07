@@ -9,5 +9,7 @@ public class TpBotActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tp_bot);
+
+        final TextView responseText = (TextView) findViewById(R.id.response);
     }
 }

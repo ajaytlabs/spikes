@@ -11,7 +11,8 @@
   tools:context="com.novoda.tpbot.TpBotActivity">
 
   <TextView
+    android:id="@+id/response"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hello World!" />
+    android:text="@string/response" />
 </RelativeLayout>
