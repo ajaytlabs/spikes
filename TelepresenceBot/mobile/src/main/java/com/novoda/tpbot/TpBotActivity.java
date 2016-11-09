@@ -2,52 +2,52 @@ package com.novoda.tpbot;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URISyntaxException;
+public class TpBotActivity extends AppCompatActivity implements ConnectionView {
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
-public class TpBotActivity extends AppCompatActivity {
-
-    private Socket socket;
-
-    {
-        try {
-            socket = IO.socket("http://192.168.86.152:3000");
-        } catch (URISyntaxException e) {
-            Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
-        }
-    }
+    private EditText usernameEntry;
+    private Server server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tp_bot);
 
-        socket.on("CONNECTED", onConnected);
-        socket.connect();
-    }
+        usernameEntry = (EditText) findViewById(R.id.username_entry);
+        TextView connectButton = (TextView) findViewById(R.id.connect_button);
 
-    private Emitter.Listener onConnected = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(TpBotActivity.this, "User connected", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    };
+        server = new Server(this);
+
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                server.connectAs(usernameEntry.getText().toString());
+            }
+        });
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        server.disconnect();
+    }
 
-        socket.disconnect();
-        socket.off("CONNECTED", onConnected);
+    @Override
+    public void onConnect() {
+        Toast.makeText(TpBotActivity.this, "User connected", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionError(String code) {
+        Toast.makeText(TpBotActivity.this, "Connection Error", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDisconnect() {
+        Toast.makeText(TpBotActivity.this, "User disconnected", Toast.LENGTH_LONG).show();
     }
 }
