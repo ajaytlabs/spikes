@@ -1,7 +1,10 @@
-package com.novoda.tpbot;
+package com.novoda.tpbot.socket.io;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import com.novoda.tpbot.ConnectionView;
+import com.novoda.tpbot.TpService;
 
 import java.net.URISyntaxException;
 
@@ -9,15 +12,15 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import static com.novoda.tpbot.Event.*;
+import static com.novoda.tpbot.socket.io.Event.*;
 
-public class Server {
+public class SocketIOTpService implements TpService {
 
     private final ConnectionView connectionView;
     private Socket socket;
     private Handler handler;
 
-    public Server(ConnectionView connectionView) {
+    public SocketIOTpService(ConnectionView connectionView) {
         this.connectionView = connectionView;
         try {
             this.socket = IO.socket("http://192.168.86.152:3000");
@@ -27,7 +30,8 @@ public class Server {
         }
     }
 
-    public void connectAs(String username) {
+    @Override
+    public void connect(String username) {
         socket.on(CONNECTED.code(), onConnected);
         socket.connect();
         socket.emit(JOIN.code(), username);
@@ -45,6 +49,7 @@ public class Server {
         }
     };
 
+    @Override
     public void disconnect() {
         socket.disconnect();
         socket.off();

@@ -7,10 +7,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.novoda.tpbot.socket.io.SocketIOTpService;
+
 public class TpBotActivity extends AppCompatActivity implements ConnectionView {
 
     private EditText usernameEntry;
-    private Server server;
+    private TpService tpService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +22,12 @@ public class TpBotActivity extends AppCompatActivity implements ConnectionView {
         usernameEntry = (EditText) findViewById(R.id.username_entry);
         TextView connectButton = (TextView) findViewById(R.id.connect_button);
 
-        server = new Server(this);
+        tpService = new SocketIOTpService(this);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                server.connectAs(usernameEntry.getText().toString());
+                tpService.connect(usernameEntry.getText().toString());
             }
         });
     }
@@ -33,7 +35,7 @@ public class TpBotActivity extends AppCompatActivity implements ConnectionView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        server.disconnect();
+        tpService.disconnect();
     }
 
     @Override
