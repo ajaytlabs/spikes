@@ -3,7 +3,6 @@ package com.novoda.tpbot;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,7 +10,9 @@ import com.novoda.tpbot.socket.io.SocketIOTpService;
 
 public class TpBotActivity extends AppCompatActivity implements ConnectionView {
 
-    private EditText usernameEntry;
+    private View humanSelection;
+    private View botSelection;
+
     private Presenter presenter;
 
     @Override
@@ -19,15 +20,22 @@ public class TpBotActivity extends AppCompatActivity implements ConnectionView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tp_bot);
 
-        usernameEntry = (EditText) findViewById(R.id.username_entry);
-        TextView connectButton = (TextView) findViewById(R.id.connect_button);
+        humanSelection = (TextView) findViewById(R.id.human_selection);
+        botSelection = (TextView) findViewById(R.id.bot_selection);
 
         presenter = new Presenter(SocketIOTpService.getInstance(), this);
 
-        connectButton.setOnClickListener(new View.OnClickListener() {
+        humanSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.startPresenting(usernameEntry.getText().toString());
+                // To human controller activity.
+            }
+        });
+
+        botSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To bot activity.
             }
         });
     }
