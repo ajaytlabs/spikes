@@ -40,7 +40,7 @@ public class SocketIOTpService implements TpService {
 
         private final Mode mode;
 
-        public SocketConnectionObservable(Mode mode) {
+        SocketConnectionObservable(Mode mode) {
             this.mode = mode;
         }
 
@@ -71,7 +71,7 @@ public class SocketIOTpService implements TpService {
         }
     }
 
-    public static class LazySingleton {
+    private static class LazySingleton {
         private static final SocketIOTpService INSTANCE = new SocketIOTpService();
     }
 
