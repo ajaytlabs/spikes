@@ -4,6 +4,7 @@ import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
 import com.novoda.tpbot.ConnectionView;
+import com.novoda.tpbot.Mode;
 import com.novoda.tpbot.socket.io.SocketIOTpService;
 
 public class ControlsPresenter {
@@ -18,8 +19,8 @@ public class ControlsPresenter {
         this.connectionView = connectionView;
     }
 
-    public void startPresenting(String username) {
-        observable = socketIOTpService.connect(username)
+    public void startPresenting() {
+        observable = socketIOTpService.connect(Mode.HUMAN)
                 .addObserver(new ConnectionObserver());
     }
 

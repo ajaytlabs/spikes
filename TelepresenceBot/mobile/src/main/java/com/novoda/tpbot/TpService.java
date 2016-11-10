@@ -5,7 +5,7 @@ import com.novoda.support.Result;
 
 public interface TpService {
 
-    Observable<Result> connect(String username);
+    Observable<Result> connect(Mode mode);
 
     void disconnect();
 

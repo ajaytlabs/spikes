@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import com.novoda.support.Observable;
 import com.novoda.support.Result;
+import com.novoda.tpbot.Mode;
 import com.novoda.tpbot.TpService;
 
 import java.net.URI;
@@ -31,16 +32,16 @@ public class SocketIOTpService implements TpService {
     }
 
     @Override
-    public Observable<Result> connect(String username) {
-        return new SocketConnectionObservable(username);
+    public Observable<Result> connect(Mode mode) {
+        return new SocketConnectionObservable(mode);
     }
 
     private class SocketConnectionObservable extends Observable<Result> {
 
-        private final String username;
+        private final Mode mode;
 
-        public SocketConnectionObservable(String username) {
-            this.username = username;
+        public SocketConnectionObservable(Mode mode) {
+            this.mode = mode;
         }
 
         @Override
@@ -58,7 +59,7 @@ public class SocketIOTpService implements TpService {
                 }
             });
             socket.connect();
-            socket.emit(JOIN.code(), username);
+            socket.emit(JOIN.code(), mode);
         }
     }
 
