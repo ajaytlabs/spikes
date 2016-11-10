@@ -3,57 +3,82 @@ package com.novoda.tpbot.socket.io;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.novoda.tpbot.ConnectionView;
+import com.novoda.support.Observable;
+import com.novoda.support.Result;
 import com.novoda.tpbot.TpService;
 
-import java.net.URISyntaxException;
+import java.net.URI;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import static com.novoda.tpbot.socket.io.Event.*;
+import static com.novoda.tpbot.socket.io.Event.CONNECTED;
+import static com.novoda.tpbot.socket.io.Event.JOIN;
 
 public class SocketIOTpService implements TpService {
 
-    private final ConnectionView connectionView;
-    private Socket socket;
-    private Handler handler;
+    private final Socket socket;
+    private final Handler handler;
 
-    public SocketIOTpService(ConnectionView connectionView) {
-        this.connectionView = connectionView;
-        try {
-            this.socket = IO.socket("http://192.168.86.152:3000");
-            this.handler = new Handler(Looper.getMainLooper());
-        } catch (URISyntaxException e) {
-            connectionView.onConnectionError(ERROR.code());
-        }
+    public static SocketIOTpService getInstance() {
+        return LazySingleton.INSTANCE;
+    }
+
+    private SocketIOTpService() {
+        this.socket = IO.socket(URI.create("http://192.168.86.152:3000"));
+        this.handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
-    public void connect(String username) {
-        socket.on(CONNECTED.code(), onConnected);
-        socket.connect();
-        socket.emit(JOIN.code(), username);
+    public Observable<Result> connect(String username) {
+        return new SocketConnectionObservable(username);
     }
 
-    private Emitter.Listener onConnected = new Emitter.Listener() {
+    private class SocketConnectionObservable extends Observable<Result> {
+
+        private final String username;
+
+        public SocketConnectionObservable(String username) {
+            this.username = username;
+        }
+
         @Override
-        public void call(final Object... args) {
-            handler.post(new Runnable() {
+        public void start() {
+            socket.on(CONNECTED.code(), new Emitter.Listener() {
                 @Override
-                public void run() {
-                    connectionView.onConnect();
+                public void call(Object... args) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            setChanged();
+                            notifyObservers(Result.from("Successfully connected"));
+                        }
+                    });
                 }
             });
+            socket.connect();
+            socket.emit(JOIN.code(), username);
         }
-    };
+    }
 
     @Override
-    public void disconnect() {
-        socket.disconnect();
-        socket.off();
-        connectionView.onDisconnect();
+    public Observable<Result> disconnect() {
+        return new SocketDisconnectionObservable();
+    }
+
+    private class SocketDisconnectionObservable extends Observable<Result> {
+        @Override
+        public void start() {
+            if (socket != null) {
+                socket.disconnect();
+                socket.off();
+            }
+        }
+    }
+
+    public static class LazySingleton {
+        private static final SocketIOTpService INSTANCE = new SocketIOTpService();
     }
 
 }

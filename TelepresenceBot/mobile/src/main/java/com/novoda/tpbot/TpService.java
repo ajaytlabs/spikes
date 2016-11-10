@@ -1,9 +1,12 @@
 package com.novoda.tpbot;
 
+import com.novoda.support.Observable;
+import com.novoda.support.Result;
+
 public interface TpService {
 
-    void connect(String username);
+    Observable<Result> connect(String username);
 
-    void disconnect();
+    Observable<Result> disconnect();
 
 }
