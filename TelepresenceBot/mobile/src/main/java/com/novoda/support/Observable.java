@@ -11,7 +11,7 @@ public abstract class Observable<T> {
         observers = new ArrayList<>();
     }
 
-    public synchronized void addObserver(Observer<T> o) {
+    public synchronized Observable<T> addObserver(Observer<T> o) {
         if (o == null) {
             throw new NullPointerException();
         }
@@ -19,14 +19,11 @@ public abstract class Observable<T> {
             observers.add(o);
         }
         start();
+        return this;
     }
 
     public synchronized void deleteObserver(Observer o) {
         observers.remove(o);
-    }
-
-    public void notifyObservers() {
-        notifyObservers(null);
     }
 
     public void notifyObservers(T arg) {

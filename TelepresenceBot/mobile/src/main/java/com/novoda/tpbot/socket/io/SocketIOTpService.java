@@ -63,17 +63,10 @@ public class SocketIOTpService implements TpService {
     }
 
     @Override
-    public Observable<Result> disconnect() {
-        return new SocketDisconnectionObservable();
-    }
-
-    private class SocketDisconnectionObservable extends Observable<Result> {
-        @Override
-        public void start() {
-            if (socket != null) {
-                socket.disconnect();
-                socket.off();
-            }
+    public void disconnect() {
+        if (socket != null) {
+            socket.disconnect();
+            socket.off();
         }
     }
 

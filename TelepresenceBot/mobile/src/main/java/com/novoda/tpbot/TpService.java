@@ -7,6 +7,6 @@ public interface TpService {
 
     Observable<Result> connect(String username);
 
-    Observable<Result> disconnect();
+    void disconnect();
 
 }
