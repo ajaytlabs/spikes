@@ -17,6 +17,15 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
+    <activity
+      android:name=".human.HumanActivity"
+      android:label="@string/human" />
+
+    <activity
+      android:name=".telepresence.TeleprecenseActivity"
+      android:label="@string/telepresence" />
+
   </application>
 
 </manifest>

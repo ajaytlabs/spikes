@@ -1,10 +1,13 @@
 package com.novoda.tpbot.landing;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.novoda.tpbot.R;
+import com.novoda.tpbot.human.HumanActivity;
+import com.novoda.tpbot.telepresence.TeleprecenseActivity;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -19,14 +22,16 @@ public class LandingActivity extends AppCompatActivity {
         humanSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // To human controller activity.
+                Intent intent = new Intent(LandingActivity.this, HumanActivity.class);
+                startActivity(intent);
             }
         });
 
         botSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // To bot activity.
+                Intent intent = new Intent(LandingActivity.this, TeleprecenseActivity.class);
+                startActivity(intent);
             }
         });
     }

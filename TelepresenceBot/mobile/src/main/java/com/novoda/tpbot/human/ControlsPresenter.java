@@ -1,18 +1,19 @@
-package com.novoda.tpbot;
+package com.novoda.tpbot.human;
 
 import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
+import com.novoda.tpbot.ConnectionView;
 import com.novoda.tpbot.socket.io.SocketIOTpService;
 
-public class Presenter {
+public class ControlsPresenter {
 
     private final SocketIOTpService socketIOTpService;
     private final ConnectionView connectionView;
 
     private Observable<Result> observable;
 
-    public Presenter(SocketIOTpService socketIOTpService, ConnectionView connectionView) {
+    public ControlsPresenter(SocketIOTpService socketIOTpService, ConnectionView connectionView) {
         this.socketIOTpService = socketIOTpService;
         this.connectionView = connectionView;
     }
