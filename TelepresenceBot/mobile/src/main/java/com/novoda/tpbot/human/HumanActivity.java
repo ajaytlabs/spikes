@@ -5,10 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.novoda.tpbot.ConnectionView;
 import com.novoda.tpbot.socket.io.SocketIOTpService;
 
-public class HumanActivity extends AppCompatActivity implements ConnectionView {
+public class HumanActivity extends AppCompatActivity implements HumanView {
 
     private ControlsPresenter controlsPresenter;
 

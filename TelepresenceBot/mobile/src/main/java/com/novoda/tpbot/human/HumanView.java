@@ -1,6 +1,6 @@
-package com.novoda.tpbot;
+package com.novoda.tpbot.human;
 
-public interface ConnectionView {
+public interface HumanView {
 
     void onConnect();
 

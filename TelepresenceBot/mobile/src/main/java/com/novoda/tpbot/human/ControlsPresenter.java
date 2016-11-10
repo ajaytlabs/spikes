@@ -3,20 +3,19 @@ package com.novoda.tpbot.human;
 import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
-import com.novoda.tpbot.ConnectionView;
 import com.novoda.tpbot.Mode;
 import com.novoda.tpbot.socket.io.SocketIOTpService;
 
 public class ControlsPresenter {
 
     private final SocketIOTpService socketIOTpService;
-    private final ConnectionView connectionView;
+    private final HumanView humanView;
 
     private Observable<Result> observable;
 
-    public ControlsPresenter(SocketIOTpService socketIOTpService, ConnectionView connectionView) {
+    public ControlsPresenter(SocketIOTpService socketIOTpService, HumanView humanView) {
         this.socketIOTpService = socketIOTpService;
-        this.connectionView = connectionView;
+        this.humanView = humanView;
     }
 
     public void startPresenting() {
@@ -33,7 +32,7 @@ public class ControlsPresenter {
 
         @Override
         public void update(Result updatedValue) {
-            connectionView.onConnect();
+            humanView.onConnect();
         }
     }
 
