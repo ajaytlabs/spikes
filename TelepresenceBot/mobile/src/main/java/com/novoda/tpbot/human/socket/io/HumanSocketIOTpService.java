@@ -45,12 +45,15 @@ public class HumanSocketIOTpService implements HumanTpService {
             socket.connect();
             socket.emit("join_as_human", "", new Ack() {
                 @Override
-                public void call(Object... args) {
+                public void call(final Object... args) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            setChanged();
-                            notifyObservers(Result.from("Connected"));
+                            if (args[0] != null) {
+                                Object object = args[0];
+                                setChanged();
+                                notifyObservers(Result.from(object.toString()));
+                            }
                         }
                     });
                 }
