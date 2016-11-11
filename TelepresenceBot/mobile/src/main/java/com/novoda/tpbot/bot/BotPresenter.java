@@ -24,8 +24,13 @@ public class BotPresenter {
     }
 
     public void stopPresenting() {
-        connectionObservable.deleteObservers();
-        moveObservable.deleteObservers();
+        if (connectionObservable != null) {
+            connectionObservable.deleteObservers();
+        }
+
+        if (moveObservable != null) {
+            moveObservable.deleteObservers();
+        }
         tpService.disconnect();
     }
 
