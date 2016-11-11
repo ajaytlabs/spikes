@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.novoda.tpbot.socket.io.SocketIOTpService;
+import com.novoda.tpbot.human.socket.io.HumanSocketIOHumanTpService;
 
 public class HumanActivity extends AppCompatActivity implements HumanView {
 
@@ -15,7 +15,7 @@ public class HumanActivity extends AppCompatActivity implements HumanView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controlsPresenter = new ControlsPresenter(SocketIOTpService.getInstance(), this);
+        controlsPresenter = new ControlsPresenter(HumanSocketIOHumanTpService.getInstance(), this);
     }
 
     @Override
