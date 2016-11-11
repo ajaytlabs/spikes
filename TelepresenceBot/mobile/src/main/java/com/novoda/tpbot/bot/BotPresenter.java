@@ -3,13 +3,15 @@ package com.novoda.tpbot.bot;
 import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
+import com.novoda.tpbot.human.socket.io.Move;
 
 public class BotPresenter {
 
     private final BotTpService tpService;
     private final BotView botView;
 
-    private Observable<Result> observable;
+    private Observable<Result> connectionObservable;
+    private Observable<Move> moveObservable;
 
     public BotPresenter(BotTpService tpService, BotView botView) {
         this.tpService = tpService;
@@ -17,13 +19,19 @@ public class BotPresenter {
     }
 
     public void startPresenting() {
-        observable = tpService.connect()
+        connectionObservable = tpService.connect()
                 .addObserver(new ConnectionObserver());
     }
 
     public void stopPresenting() {
-        observable.deleteObservers();
+        connectionObservable.deleteObservers();
+        moveObservable.deleteObservers();
         tpService.disconnect();
+    }
+
+    public void startListeningForMoves() {
+        moveObservable = tpService.listen()
+                .addObserver(new MoveObserver());
     }
 
     private class ConnectionObserver implements Observer<Result> {
@@ -38,4 +46,11 @@ public class BotPresenter {
         }
     }
 
+    private class MoveObserver implements Observer<Move> {
+
+        @Override
+        public void update(Move move) {
+            botView.move(move);
+        }
+    }
 }

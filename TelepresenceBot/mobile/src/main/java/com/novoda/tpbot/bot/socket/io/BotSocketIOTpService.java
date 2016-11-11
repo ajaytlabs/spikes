@@ -5,8 +5,8 @@ import android.os.Looper;
 
 import com.novoda.support.Observable;
 import com.novoda.support.Result;
-import com.novoda.tpbot.human.socket.io.Move;
 import com.novoda.tpbot.bot.BotTpService;
+import com.novoda.tpbot.human.socket.io.Move;
 
 import java.net.URI;
 
