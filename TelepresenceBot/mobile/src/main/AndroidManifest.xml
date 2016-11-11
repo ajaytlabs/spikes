@@ -23,7 +23,7 @@
       android:label="@string/human" />
 
     <activity
-      android:name=".telepresence.TeleprecenseActivity"
+      android:name=".bot.BotActivity"
       android:label="@string/telepresence" />
 
   </application>

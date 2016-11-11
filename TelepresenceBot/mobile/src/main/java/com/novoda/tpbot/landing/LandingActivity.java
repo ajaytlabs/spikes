@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.novoda.tpbot.R;
 import com.novoda.tpbot.human.HumanActivity;
-import com.novoda.tpbot.telepresence.TeleprecenseActivity;
+import com.novoda.tpbot.bot.BotActivity;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class LandingActivity extends AppCompatActivity {
         botSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LandingActivity.this, TeleprecenseActivity.class);
+                Intent intent = new Intent(LandingActivity.this, BotActivity.class);
                 startActivity(intent);
             }
         });

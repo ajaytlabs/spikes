@@ -2,10 +2,10 @@ package com.novoda.tpbot.human;
 
 public interface HumanView {
 
-    void onConnect();
-
-    void onConnectionError(String code);
+    void onConnect(String message);
 
     void onDisconnect();
+
+    void onError(String message);
 
 }

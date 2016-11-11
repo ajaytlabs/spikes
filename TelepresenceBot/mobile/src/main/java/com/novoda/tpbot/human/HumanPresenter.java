@@ -5,14 +5,14 @@ import com.novoda.support.Observer;
 import com.novoda.support.Result;
 import com.novoda.tpbot.human.socket.io.Move;
 
-public class ControlsPresenter {
+public class HumanPresenter {
 
     private final HumanTpService humanTpService;
     private final HumanView humanView;
 
     private Observable<Result> observable;
 
-    public ControlsPresenter(HumanTpService tpService, HumanView humanView) {
+    public HumanPresenter(HumanTpService tpService, HumanView humanView) {
         this.humanTpService = tpService;
         this.humanView = humanView;
     }
@@ -34,8 +34,12 @@ public class ControlsPresenter {
     private class ConnectionObserver implements Observer<Result> {
 
         @Override
-        public void update(Result updatedValue) {
-            humanView.onConnect();
+        public void update(Result result) {
+            if (result.isError()) {
+                humanView.onError(result.exception().get().getMessage());
+            } else {
+                humanView.onConnect(result.message().get());
+            }
         }
     }
 
