@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.novoda.tpbot.bot.socket.io.BotSocketIOTpService;
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 public class BotActivity extends AppCompatActivity implements BotView {
 
@@ -35,7 +35,7 @@ public class BotActivity extends AppCompatActivity implements BotView {
     public void onConnect(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-        botPresenter.startListeningForMoves();
+        botPresenter.startListeningForDirection();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BotActivity extends AppCompatActivity implements BotView {
     }
 
     @Override
-    public void move(Move move) {
-        Toast.makeText(this, move.name(), Toast.LENGTH_SHORT).show();
+    public void direct(Direction direction) {
+        Toast.makeText(this, direction.name(), Toast.LENGTH_SHORT).show();
     }
 }

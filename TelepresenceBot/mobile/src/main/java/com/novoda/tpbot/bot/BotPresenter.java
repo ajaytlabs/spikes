@@ -3,7 +3,7 @@ package com.novoda.tpbot.bot;
 import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 public class BotPresenter {
 
@@ -11,7 +11,7 @@ public class BotPresenter {
     private final BotView botView;
 
     private Observable<Result> connectionObservable;
-    private Observable<Move> moveObservable;
+    private Observable<Direction> directionObservable;
 
     public BotPresenter(BotTpService tpService, BotView botView) {
         this.tpService = tpService;
@@ -28,15 +28,15 @@ public class BotPresenter {
             connectionObservable.deleteObservers();
         }
 
-        if (moveObservable != null) {
-            moveObservable.deleteObservers();
+        if (directionObservable != null) {
+            directionObservable.deleteObservers();
         }
         tpService.disconnect();
     }
 
-    public void startListeningForMoves() {
-        moveObservable = tpService.listen()
-                .addObserver(new MoveObserver());
+    public void startListeningForDirection() {
+        directionObservable = tpService.listen()
+                .addObserver(new DirectionObserver());
     }
 
     private class ConnectionObserver implements Observer<Result> {
@@ -51,11 +51,11 @@ public class BotPresenter {
         }
     }
 
-    private class MoveObserver implements Observer<Move> {
+    private class DirectionObserver implements Observer<Direction> {
 
         @Override
-        public void update(Move move) {
-            botView.move(move);
+        public void update(Direction direction) {
+            botView.direct(direction);
         }
     }
 }

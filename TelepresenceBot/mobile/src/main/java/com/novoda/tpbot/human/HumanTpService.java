@@ -2,13 +2,13 @@ package com.novoda.tpbot.human;
 
 import com.novoda.support.Observable;
 import com.novoda.support.Result;
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 public interface HumanTpService {
 
     Observable<Result> connect();
 
-    void move(Move move);
+    void moveIn(Direction direction);
 
     void disconnect();
 

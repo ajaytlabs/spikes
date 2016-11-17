@@ -6,6 +6,7 @@ import android.os.Looper;
 import com.novoda.support.Observable;
 import com.novoda.support.Result;
 import com.novoda.tpbot.human.HumanTpService;
+import com.novoda.tpbot.human.controller.Direction;
 
 import java.net.URI;
 
@@ -23,7 +24,7 @@ public class HumanSocketIOTpService implements HumanTpService {
     }
 
     private HumanSocketIOTpService() {
-        this.socket = IO.socket(URI.create("http://192.168.86.152:3000"));
+        this.socket = IO.socket(URI.create("http://192.168.86.158:3000"));
         this.handler = new Handler(Looper.getMainLooper());
     }
 
@@ -63,8 +64,8 @@ public class HumanSocketIOTpService implements HumanTpService {
     }
 
     @Override
-    public void move(Move move) {
-        socket.emit("move", move);
+    public void moveIn(Direction direction) {
+        socket.emit("move_in", direction);
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Looper;
 import com.novoda.support.Observable;
 import com.novoda.support.Result;
 import com.novoda.tpbot.bot.BotTpService;
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 import java.net.URI;
 
@@ -25,7 +25,7 @@ public class BotSocketIOTpService implements BotTpService {
     }
 
     private BotSocketIOTpService() {
-        this.socket = IO.socket(URI.create("http://192.168.86.152:3000"));
+        this.socket = IO.socket(URI.create("http://192.168.86.158:3000"));
         this.handler = new Handler(Looper.getMainLooper());
     }
 
@@ -62,14 +62,14 @@ public class BotSocketIOTpService implements BotTpService {
     }
 
     @Override
-    public Observable<Move> listen() {
-        return new SocketMoveObservable();
+    public Observable<Direction> listen() {
+        return new DirectionObservable();
     }
 
-    private class SocketMoveObservable extends Observable<Move> {
+    private class DirectionObservable extends Observable<Direction> {
         @Override
         public void start() {
-            socket.on("move", new Emitter.Listener() {
+            socket.on("send_move", new Emitter.Listener() {
                 @Override
                 public void call(final Object... args) {
                     handler.post(new Runnable() {
@@ -77,10 +77,10 @@ public class BotSocketIOTpService implements BotTpService {
                         public void run() {
                             if (args[0] != null) {
                                 Object object = args[0];
-                                Move move = Move.from(object.toString());
+                                Direction direction = Direction.from(object.toString());
 
                                 setChanged();
-                                notifyObservers(move);
+                                notifyObservers(direction);
                             }
 
                         }

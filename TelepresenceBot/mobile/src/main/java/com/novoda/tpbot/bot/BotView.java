@@ -1,6 +1,6 @@
 package com.novoda.tpbot.bot;
 
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 public interface BotView {
 
@@ -8,5 +8,5 @@ public interface BotView {
 
     void onError(String message);
 
-    void move(Move move);
+    void direct(Direction direction);
 }

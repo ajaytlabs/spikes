@@ -3,7 +3,7 @@ package com.novoda.tpbot.human;
 import com.novoda.support.Observable;
 import com.novoda.support.Observer;
 import com.novoda.support.Result;
-import com.novoda.tpbot.human.socket.io.Move;
+import com.novoda.tpbot.human.controller.Direction;
 
 public class HumanPresenter {
 
@@ -22,8 +22,8 @@ public class HumanPresenter {
                 .addObserver(new ConnectionObserver());
     }
 
-    public void move(Move move) {
-        humanTpService.move(move);
+    public void moveIn(Direction direction) {
+        humanTpService.moveIn(direction);
     }
 
     public void stopPresenting() {
