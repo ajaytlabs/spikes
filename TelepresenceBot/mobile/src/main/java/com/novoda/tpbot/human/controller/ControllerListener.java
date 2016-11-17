@@ -1,8 +1,8 @@
-package com.novoda.tpbot.controller;
+package com.novoda.tpbot.human.controller;
 
 import com.novoda.notils.logger.simple.Log;
 
-interface ControllerListener {
+public interface ControllerListener {
     ControllerListener NO_OP = new ControllerListener() {
         @Override
         public void onDirectionPressed(Direction direction) {

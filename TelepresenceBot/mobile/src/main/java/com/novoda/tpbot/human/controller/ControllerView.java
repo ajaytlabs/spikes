@@ -1,4 +1,4 @@
-package com.novoda.tpbot.controller;
+package com.novoda.tpbot.human.controller;
 
 import android.content.Context;
 import android.util.AttributeSet;
