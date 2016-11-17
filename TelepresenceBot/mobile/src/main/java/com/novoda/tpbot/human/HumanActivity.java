@@ -22,9 +22,12 @@ public class HumanActivity extends AppCompatActivity implements HumanView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bot_controller);
         ControllerView padView = Views.findById(this, R.id.bot_controller_direction_view);
+        humanPresenter = new HumanPresenter(HumanSocketIOTpService.getInstance(), this);
+
         padView.setControllerListener(new ControllerListener() {
             @Override
             public void onDirectionPressed(Direction direction) {
+                humanPresenter.moveIn(direction);
                 Log.d("onDirectionPressed: " + direction);
             }
 
@@ -39,7 +42,6 @@ public class HumanActivity extends AppCompatActivity implements HumanView {
             }
         });
 
-        humanPresenter = new HumanPresenter(HumanSocketIOTpService.getInstance(), this);
     }
 
     @Override
