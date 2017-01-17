@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.novoda.androidskeleton"
+        applicationId "com.novoda.androidskeleton" // TODO: rename to com.novoda.peepz
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
