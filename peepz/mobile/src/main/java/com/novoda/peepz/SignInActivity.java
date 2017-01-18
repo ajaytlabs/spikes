@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -20,22 +21,20 @@ public class SignInActivity extends BaseActivity implements AuthenticationCallba
 
     private static final int REQUEST_CODE_SIGN_IN = 1;
 
-    private FirebaseUserFetcher firebaseUserFetcher;
+    private FirebaseWrapper firebaseWrapper;
     private GoogleApiClient googleApiClient;
+    private TextView statusTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        firebaseUserFetcher = new FirebaseUserFetcher(FirebaseAuth.getInstance());
+        firebaseWrapper = new FirebaseWrapper(FirebaseAuth.getInstance());
         googleApiClient = new GoogleApiClientFactory(BuildConfig.GOOGLE_WEB_CLIENT_ID, this).createGoogleApiClient(this);
 
+        statusTextView = ButterKnife.findById(this, R.id.status_text);
         Button signInButton = ButterKnife.findById(this, R.id.sign_in_button);
-        initiateSignInOnClick(signInButton);
-    }
-
-    private void initiateSignInOnClick(Button signInButton) {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +42,22 @@ public class SignInActivity extends BaseActivity implements AuthenticationCallba
                 startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN);
             }
         });
+
+        Button signOutButton = ButterKnife.findById(this, R.id.sign_out_button);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseWrapper.signOut();
+                update(statusTextView);
+            }
+        });
+
+        update(statusTextView);
+    }
+
+    private void update(TextView statusTextView) {
+        FirebaseUser signedInUser = firebaseWrapper.getSignedInUser();
+        statusTextView.setText(signedInUser == null ? "signed out" : "signed in: " + signedInUser.getEmail());
     }
 
     @Override
@@ -52,7 +67,8 @@ public class SignInActivity extends BaseActivity implements AuthenticationCallba
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
-                firebaseUserFetcher.getFirebaseUser(googleSignInAccount, this);
+                firebaseWrapper.getFirebaseUser(googleSignInAccount, this);
+
             } else {
                 onAuthenticationFailure();
             }
@@ -62,6 +78,7 @@ public class SignInActivity extends BaseActivity implements AuthenticationCallba
     @Override
     public void onSuccess(FirebaseUser firebaseUser) {
         toast("signed in as " + firebaseUser.getDisplayName() + " (" + firebaseUser.getEmail() + ")");
+        update(statusTextView);
     }
 
     @Override
