@@ -31,3 +31,6 @@ proguard/
 # Log Files
 *.log
 
+# google-services.json contains api keys and client ids
+google-services.json
+google.properties
