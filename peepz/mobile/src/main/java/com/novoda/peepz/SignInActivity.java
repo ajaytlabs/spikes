@@ -48,6 +48,7 @@ public class SignInActivity extends BaseActivity implements AuthenticationCallba
             @Override
             public void onClick(View v) {
                 firebaseWrapper.signOut();
+                Auth.GoogleSignInApi.signOut(googleApiClient);
                 update(statusTextView);
             }
         });
