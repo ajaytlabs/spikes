@@ -9,7 +9,7 @@ TODO:
 - authenticate (user) // done
 - pull list of models // done
 - display list of models (linear layout) // done
-- take picture with camera save as base 64 string
-- push update to firebase
+- take picture with camera save as base 64 string // done
+- push update to firebase // done
 - share image via intent
 - prettify
