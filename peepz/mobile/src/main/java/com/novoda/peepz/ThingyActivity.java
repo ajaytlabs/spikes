@@ -90,7 +90,7 @@ public class ThingyActivity extends BaseActivity {
     };
 
     private void fetchData() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference wallRef = database.getReference(KEY_ROOT);
         wallRef.addValueEventListener(new ValueEventListener() {
             @Override
