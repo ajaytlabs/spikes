@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.android.cameraview.CameraView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +59,7 @@ public class ThingyActivity extends BaseActivity {
 
     private void onNext(List<Peep> peepz) {
         if (recyclerView.getAdapter() == null) {
-            PeepAdapter peepAdapter = new PeepAdapter(peepz);
+            PeepAdapter peepAdapter = new PeepAdapter(firebaseApi().getSignedInUser(), peepz);
             recyclerView.setAdapter(peepAdapter);
         } else {
             ((PeepAdapter) recyclerView.getAdapter()).update(peepz);
