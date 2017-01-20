@@ -4,11 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 final class PeepViewHolder extends RecyclerView.ViewHolder {
 
@@ -17,26 +12,12 @@ final class PeepViewHolder extends RecyclerView.ViewHolder {
         return new PeepViewHolder(itemView);
     }
 
-    @BindView(R.id.peep_text_name)
-    TextView nameTextView;
-
-    @BindView(R.id.peep_image)
-    ImageView imageTextView;
-
     private PeepViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
     }
 
     public void bind(Peep peep) {
-        if (peep.name().isPresent()) {
-            nameTextView.setText(peep.name().get());
-            nameTextView.setVisibility(View.VISIBLE);
-        } else {
-            nameTextView.setVisibility(View.INVISIBLE);
-        }
-
-        imageTextView.setImageBitmap(peep.image());
+        ((PeepView) itemView).bind(peep);
     }
 
 }
