@@ -75,11 +75,9 @@ public class ThingyActivity extends BaseActivity {
     private final SelfieView.Listener listener = new SelfieView.Listener() {
         @Override
         public void onPictureTaken(byte[] data) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            String encodedImage = new StringBuilder("data:image/webp;base64,").append(Base64.encodeToString(byteArray, Base64.DEFAULT)).toString();
+            String encodedImage = new StringBuilder("data:image/webp;base64,")
+                    .append(Base64.encodeToString(data, Base64.DEFAULT))
+                    .toString();
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = firebaseApi().getSignedInUser();
