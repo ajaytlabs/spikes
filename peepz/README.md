@@ -6,11 +6,10 @@ you'll need google.properties and google-services.json from ataul or adam
 
 TODO:
 
-- authenticate (user)
-- pull list of models
-- display list of models (linear layout)
+- authenticate (user) // done
+- pull list of models // done
+- display list of models (linear layout) // done
 - take picture with camera save as base 64 string
 - push update to firebase
 - share image via intent
 - prettify
-

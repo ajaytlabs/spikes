@@ -2,6 +2,7 @@ package com.novoda.peepz;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -11,15 +12,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-class FirebaseWrapper {
+class FirebaseApi {
 
     private final FirebaseAuth firebaseAuth;
+    private final GoogleApiClientApi googleApiClientApi;
 
-    FirebaseWrapper(FirebaseAuth firebaseAuth) {
+    FirebaseApi(FirebaseAuth firebaseAuth, GoogleApiClientApi googleApiClientApi) {
         this.firebaseAuth = firebaseAuth;
+        this.googleApiClientApi = googleApiClientApi;
     }
 
-    public void getFirebaseUser(GoogleSignInAccount account, final AuthenticationCallbacks authenticationCallbacks) {
+    public void signIntoFirebase(GoogleSignInAccount account, final AuthenticationCallbacks authenticationCallbacks) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth
                 .signInWithCredential(credential)
@@ -35,11 +38,17 @@ class FirebaseWrapper {
                 });
     }
 
-    public void signOut() {
-        firebaseAuth.signOut();
+    public boolean isSignedIn() {
+        return getSignedInUser() != null;
     }
 
     public FirebaseUser getSignedInUser() {
         return firebaseAuth.getCurrentUser();
     }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+        googleApiClientApi.signOut();
+    }
+
 }

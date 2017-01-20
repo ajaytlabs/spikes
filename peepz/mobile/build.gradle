@@ -5,10 +5,6 @@ buildProperties {
     debugSigning {
         file rootProject.file('debugSigning.properties')
     }
-
-    google {
-        file rootProject.file('google.properties')
-    }
 }
 
 android {
@@ -21,8 +17,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
-        buildConfigField "String", 'GOOGLE_WEB_CLIENT_ID', buildProperties.google['webClientId'].string
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +52,8 @@ dependencies {
 
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-database:10.0.1'
+
     compile 'com.google.android.gms:play-services-auth:10.0.1'
 
     // Android runner and rules support

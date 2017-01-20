@@ -10,17 +10,15 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 class GoogleApiClientFactory {
 
-    private final String webClientId;
     private final FragmentActivity activity;
 
-    public GoogleApiClientFactory(String webClientId, FragmentActivity activity) {
-        this.webClientId = webClientId;
+    public GoogleApiClientFactory(FragmentActivity activity) {
         this.activity = activity;
     }
 
     public GoogleApiClient createGoogleApiClient(final AuthenticationCallbacks authenticationCallbacks) {
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(webClientId)
+                .requestIdToken(activity.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
