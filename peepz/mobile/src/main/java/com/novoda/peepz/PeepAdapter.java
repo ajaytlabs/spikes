@@ -3,18 +3,13 @@ package com.novoda.peepz;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.List;
 
-class PeepAdapter extends RecyclerView.Adapter {
-
-    private final FirebaseUser signedInUser;
+class PeepAdapter extends RecyclerView.Adapter<PeepViewHolder> {
 
     private List<Peep> peepz;
 
-    public PeepAdapter(FirebaseUser signedInUser, List<Peep> peepz) {
-        this.signedInUser = signedInUser;
+    public PeepAdapter(List<Peep> peepz) {
         this.peepz = peepz;
         super.setHasStableIds(true);
     }
@@ -25,22 +20,14 @@ class PeepAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == R.id.view_type_selfie) {
-            return SelfieViewHolder.inflateView(parent);
-        } else {
-            return PeepViewHolder.inflateView(parent);
-        }
+    public PeepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return PeepViewHolder.inflateView(parent);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(PeepViewHolder holder, int position) {
         Peep peep = peepz.get(position);
-        if (getItemViewType(position) == R.id.view_type_selfie) {
-            ((SelfieViewHolder) holder).bind(peep);
-        } else {
-            ((PeepViewHolder) holder).bind(peep);
-        }
+        holder.bind(peep);
     }
 
     @Override
@@ -51,16 +38,6 @@ class PeepAdapter extends RecyclerView.Adapter {
     @Override
     public long getItemId(int position) {
         return peepz.get(position).id().hashCode();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        Peep peep = peepz.get(position);
-        if (signedInUser.getUid().equals(peep.id())) {
-            return R.id.view_type_selfie;
-        } else {
-            return R.id.view_type_peep;
-        }
     }
 
 }

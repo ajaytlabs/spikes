@@ -15,6 +15,8 @@ class SelfieView extends FrameLayout {
     @BindView(R.id.selfie_camera_preview)
     CameraView previewCameraView;
 
+    private Listener listener;
+
     public SelfieView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -38,7 +40,35 @@ class SelfieView extends FrameLayout {
         super.onDetachedFromWindow();
     }
 
+    public void attach(Listener listener) {
+        this.listener = listener;
+        previewCameraView.addCallback(callback);
+    }
+
+    public void detachListeners() {
+        previewCameraView.removeCallback(callback);
+        this.listener = null;
+    }
+
+    private final CameraView.Callback callback = new CameraView.Callback() {
+        @Override
+        public void onPictureTaken(CameraView cameraView, byte[] data) {
+            super.onPictureTaken(cameraView, data);
+            listener.onPictureTaken(data);
+        }
+    };
+
     public void bind(Peep peep) {
+
+    }
+
+    public void takePicture() {
+        previewCameraView.takePicture();
+    }
+
+    public interface Listener {
+
+        void onPictureTaken(byte[] data);
 
     }
 
