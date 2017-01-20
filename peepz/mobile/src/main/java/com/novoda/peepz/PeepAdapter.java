@@ -11,6 +11,7 @@ class PeepAdapter extends RecyclerView.Adapter<PeepViewHolder> {
 
     public PeepAdapter(List<Peep> peepz) {
         this.peepz = peepz;
+        super.setHasStableIds(true);
     }
 
     public void update(List<Peep> peepz) {
@@ -32,6 +33,11 @@ class PeepAdapter extends RecyclerView.Adapter<PeepViewHolder> {
     @Override
     public int getItemCount() {
         return peepz.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return peepz.get(position).id().hashCode();
     }
 
 }
