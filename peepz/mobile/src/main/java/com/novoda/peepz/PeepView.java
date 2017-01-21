@@ -3,6 +3,7 @@ package com.novoda.peepz;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,15 +32,16 @@ public class PeepView extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = ((ViewGroup) getParent()).getHeight();
 
         int peekPx = getResources().getDimensionPixelSize(R.dimen.size_peek);
-        int leftOverWidthPx = widthPixels - peekPx;
-        int rows = getResources().getInteger(R.integer.spans);
-        int desiredWidth = leftOverWidthPx / rows;
+        int leftOverHeightPx = heightPixels - peekPx;
 
-        int desiredWidthMeasureSpec = MeasureSpec.makeMeasureSpec(desiredWidth, MeasureSpec.EXACTLY);
-        super.onMeasure(desiredWidthMeasureSpec, heightMeasureSpec);
+        int columns = getResources().getInteger(R.integer.spans);
+        int desiredHeight = leftOverHeightPx / columns;
+
+        int desiredHeightMeasureSpec = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, desiredHeightMeasureSpec);
     }
 
     public void bind(Peep peep) {

@@ -51,6 +51,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
     compile 'com.github.google:cameraview:70799b7b03'
+    compile 'com.ataulm:rv-tools:1.1.0'
 
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-auth:10.0.1'

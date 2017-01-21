@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ataulm.rv.SpacesItemDecoration;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,9 @@ public class ThingyActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         int spans = getResources().getInteger(R.integer.spans);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, spans, GridLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, spans));
+        int dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
+        recyclerView.addItemDecoration(SpacesItemDecoration.newInstance(dimensionPixelSize, dimensionPixelSize, spans));
         fetchData();
     }
 
