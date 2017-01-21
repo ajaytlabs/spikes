@@ -37,7 +37,8 @@ public class ThingyActivity extends BaseActivity {
         setContentView(R.layout.activity_thingy);
         ButterKnife.bind(this);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false));
+        int spans = getResources().getInteger(R.integer.spans);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, spans, GridLayoutManager.HORIZONTAL, false));
         fetchData();
     }
 

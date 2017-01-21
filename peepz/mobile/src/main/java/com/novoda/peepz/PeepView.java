@@ -29,6 +29,19 @@ public class PeepView extends FrameLayout {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+
+        int peekPx = getResources().getDimensionPixelSize(R.dimen.size_peek);
+        int leftOverWidthPx = widthPixels - peekPx;
+        int rows = getResources().getInteger(R.integer.spans);
+        int desiredWidth = leftOverWidthPx / rows;
+
+        int desiredWidthMeasureSpec = MeasureSpec.makeMeasureSpec(desiredWidth, MeasureSpec.EXACTLY);
+        super.onMeasure(desiredWidthMeasureSpec, heightMeasureSpec);
+    }
+
     public void bind(Peep peep) {
         if (peep.name().isPresent()) {
             nameTextView.setText(peep.name().get());

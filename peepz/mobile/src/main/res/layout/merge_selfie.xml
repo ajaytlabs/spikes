@@ -6,9 +6,7 @@
         android:id="@+id/selfie_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:keepScreenOn="true"
-        app:aspectRatio="4:3"
         app:autoFocus="true"
         app:facing="front"
         app:flash="off" />
