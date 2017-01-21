@@ -5,10 +5,24 @@
     <com.google.android.cameraview.CameraView
         android:id="@+id/selfie_camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:keepScreenOn="true"
+        android:visibility="invisible"
         app:autoFocus="true"
         app:facing="front"
         app:flash="off" />
+
+    <ImageView
+        android:id="@+id/selfie_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:id="@+id/selfie_button_swap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:text="🔀"/>
 
 </merge>

@@ -3,7 +3,9 @@ package com.novoda.peepz;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.google.android.cameraview.CameraView;
 
@@ -14,6 +16,12 @@ class SelfieView extends FrameLayout {
 
     @BindView(R.id.selfie_camera_preview)
     CameraView previewCameraView;
+
+    @BindView(R.id.selfie_image)
+    ImageView imageView;
+
+    @BindView(R.id.selfie_button_swap)
+    Button swapButton;
 
     private Listener listener;
 
@@ -26,6 +34,19 @@ class SelfieView extends FrameLayout {
         super.onFinishInflate();
         View.inflate(getContext(), R.layout.merge_selfie, this);
         ButterKnife.bind(this);
+
+        swapButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (previewCameraView.getVisibility() == INVISIBLE) {
+                    previewCameraView.setVisibility(VISIBLE);
+                    imageView.setVisibility(INVISIBLE);
+                } else {
+                    previewCameraView.setVisibility(INVISIBLE);
+                    imageView.setVisibility(VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -59,7 +80,7 @@ class SelfieView extends FrameLayout {
     };
 
     public void bind(Peep peep) {
-
+        imageView.setImageBitmap(peep.image());
     }
 
     public void takePicture() {
