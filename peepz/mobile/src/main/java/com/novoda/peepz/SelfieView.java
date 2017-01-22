@@ -38,12 +38,12 @@ class SelfieView extends FrameLayout {
         swapButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (previewCameraView.getVisibility() == INVISIBLE) {
-                    previewCameraView.setVisibility(VISIBLE);
-                    imageView.setVisibility(INVISIBLE);
-                } else {
-                    previewCameraView.setVisibility(INVISIBLE);
+                if (imageView.getVisibility() == INVISIBLE) {
                     imageView.setVisibility(VISIBLE);
+                    previewCameraView.setVisibility(INVISIBLE);
+                } else {
+                    imageView.setVisibility(INVISIBLE);
+                    previewCameraView.setVisibility(VISIBLE);
                 }
             }
         });
