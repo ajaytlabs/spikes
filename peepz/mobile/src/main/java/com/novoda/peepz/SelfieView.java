@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.cameraview.CameraView;
 
 import butterknife.BindView;
@@ -80,7 +81,7 @@ class SelfieView extends FrameLayout {
     };
 
     public void bind(Peep peep) {
-        // TODO: use imageloader to load image
+        Glide.with(getContext()).load(peep.image().payload()).into(imageView);
     }
 
     public void takePicture() {

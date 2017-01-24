@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,7 +19,7 @@ public class PeepView extends FrameLayout {
     TextView nameTextView;
 
     @BindView(R.id.peep_image)
-    ImageView imageTextView;
+    ImageView imageView;
 
     public PeepView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,7 +47,8 @@ public class PeepView extends FrameLayout {
     }
 
     public void bind(Peep peep) {
-        nameTextView.setText(peep.name() + " - new");
+        nameTextView.setText(peep.name());
+        Glide.with(getContext()).load(peep.image().payload()).into(imageView);
     }
 
 }
