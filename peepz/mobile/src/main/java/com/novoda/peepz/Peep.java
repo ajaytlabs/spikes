@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 class Peep {
 
     private final String id;
-    private final OptionalName name;
+    private final OptionalString name;
     private final Bitmap image;
     private final OptionalTimestamp timestamp;
 
-    Peep(String id, OptionalName name, Bitmap image, OptionalTimestamp timestamp) {
+    Peep(String id, OptionalString name, Bitmap image, OptionalTimestamp timestamp) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -20,7 +20,7 @@ class Peep {
         return id;
     }
 
-    public OptionalName name() {
+    public OptionalString name() {
         return name;
     }
 

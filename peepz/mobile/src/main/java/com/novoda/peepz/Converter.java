@@ -22,6 +22,6 @@ class Converter {
             Log.e("!!!", "gross, the bitmap was not in a good state");
         }
 
-        return new Peep(value.uid, new OptionalName(value.name), bitmap, new OptionalTimestamp(value.timestamp));
+        return new Peep(value.uid, new OptionalString(value.name), bitmap, new OptionalTimestamp(value.timestamp));
     }
 }

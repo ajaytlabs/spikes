@@ -2,22 +2,22 @@ package com.novoda.peepz;
 
 import android.support.annotation.Nullable;
 
-public class OptionalName {
+public class OptionalString {
     @Nullable
-    private final String name;
+    private final String value;
 
-    public OptionalName(@Nullable String name) {
-        this.name = name;
+    public OptionalString(@Nullable String value) {
+        this.value = value;
     }
 
     public boolean isPresent() {
-        return name != null;
+        return value != null;
     }
 
     public String get() {
         if (!isPresent()) {
             throw new RuntimeException("goofed");
         }
-        return name;
+        return value;
     }
 }
