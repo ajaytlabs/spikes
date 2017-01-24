@@ -4,21 +4,20 @@ public class ApiPeep {
 
     public String uid;
     public String name;
-    public String image;
-    public long timestamp;
+    public long lastSeen;
 
     public ApiPeep() {
     }
 
-    public ApiPeep(String uid, String name, String image, long timestamp) {
+    public ApiPeep(String uid, String name, long lastSeen) {
         this.uid = uid;
         this.name = name;
-        this.image = image;
-        this.timestamp = timestamp;
+        this.lastSeen = lastSeen;
     }
 
     @Override
     public String toString() {
-        return "name: " + name + ", uid: " + uid + ", image: " + image.substring(0,5) + ", timestamp: " + timestamp;
+        return "{ name: " + name + ", uid: " + uid + ", lastSeen: " + lastSeen + "}";
     }
+
 }

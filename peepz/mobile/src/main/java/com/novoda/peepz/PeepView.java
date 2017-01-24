@@ -45,14 +45,7 @@ public class PeepView extends FrameLayout {
     }
 
     public void bind(Peep peep) {
-        if (peep.name().isPresent()) {
-            nameTextView.setText(peep.name().get());
-            nameTextView.setVisibility(View.VISIBLE);
-        } else {
-            nameTextView.setVisibility(View.INVISIBLE);
-        }
-
-        imageTextView.setImageBitmap(peep.image());
+        nameTextView.setText(peep.name() + " - new");
     }
 
 }

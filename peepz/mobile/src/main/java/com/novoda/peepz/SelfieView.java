@@ -80,7 +80,7 @@ class SelfieView extends FrameLayout {
     };
 
     public void bind(Peep peep) {
-        imageView.setImageBitmap(peep.image());
+        // TODO: use imageloader to load image
     }
 
     public void takePicture() {

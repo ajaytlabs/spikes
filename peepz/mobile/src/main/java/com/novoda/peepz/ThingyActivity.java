@@ -86,14 +86,14 @@ public class ThingyActivity extends BaseActivity {
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = firebaseApi().getSignedInUser();
-            ApiPeep apiPeep = new ApiPeep(
-                    user.getUid(),
-                    user.getDisplayName(),
-                    encodedImage,
-                    System.currentTimeMillis()
-            );
-
-            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
+//            ApiPeep apiPeep = new ApiPeep(
+//                    user.getUid(),
+//                    user.getDisplayName(),
+//                    encodedImage,
+//                    System.currentTimeMillis()
+//            );
+//
+//            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
         }
     };
 

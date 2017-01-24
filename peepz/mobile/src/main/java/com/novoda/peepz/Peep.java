@@ -1,35 +1,33 @@
 package com.novoda.peepz;
 
-import android.graphics.Bitmap;
-
 class Peep {
 
     private final String id;
-    private final OptionalString name;
-    private final Bitmap image;
-    private final OptionalTimestamp timestamp;
+    private final String name;
+    private final Image image;
+    private final long lastSeen;
 
-    Peep(String id, OptionalString name, Bitmap image, OptionalTimestamp timestamp) {
+    Peep(String id, String name, Image image, long lastSeen) {
         this.id = id;
         this.name = name;
         this.image = image;
-        this.timestamp = timestamp;
+        this.lastSeen = lastSeen;
     }
 
     public String id() {
         return id;
     }
 
-    public OptionalString name() {
+    public String name() {
         return name;
     }
 
-    public Bitmap image() {
+    public Image image() {
         return image;
     }
 
-    public OptionalTimestamp timestamp() {
-        return timestamp;
+    public long lastSeen() {
+        return lastSeen;
     }
 
 }
