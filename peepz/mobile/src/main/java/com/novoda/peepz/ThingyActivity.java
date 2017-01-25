@@ -80,19 +80,24 @@ public class ThingyActivity extends BaseActivity {
     private final SelfieView.Listener listener = new SelfieView.Listener() {
         @Override
         public void onPictureTaken(byte[] data) {
-            String encodedImage = new StringBuilder("data:image/webp;base64,")
-                    .append(Base64.encodeToString(data, Base64.DEFAULT))
-                    .toString();
-
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = firebaseApi().getSignedInUser();
-//            ApiPeep apiPeep = new ApiPeep(
-//                    user.getUid(),
-//                    user.getDisplayName(),
-//                    encodedImage,
-//                    System.currentTimeMillis()
-//            );
-//
+            long currentTimeMillis = System.currentTimeMillis();
+
+            // TODO: upload image to Firebase Storage
+//            String encodedImage = new StringBuilder("data:image/webp;base64,")
+//                    .append(Base64.encodeToString(data, Base64.DEFAULT))
+//                    .toString();
+            String urlToImageWithTokenToAccess = "";
+
+            ApiPeep apiPeep = ApiPeep.create(
+                    user.getUid(),
+                    user.getDisplayName(),
+                    urlToImageWithTokenToAccess,
+                    currentTimeMillis,
+                    currentTimeMillis
+            );
+
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
 //            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
         }
     };

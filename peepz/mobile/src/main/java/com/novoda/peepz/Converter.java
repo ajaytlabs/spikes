@@ -6,18 +6,16 @@ class Converter {
 
     public Peep convert(DataSnapshot dataSnapshot) {
         ApiPeep value = dataSnapshot.getValue(ApiPeep.class);
-        ApiImage apiImage = dataSnapshot.child("image").getValue(ApiImage.class);
+
+        String payload = (String) value.image.get(ApiPeep.KEY_IMAGE_PAYLOAD);
+        long timestamp = (long) value.image.get(ApiPeep.KEY_IMAGE_TIMESTAMP);
 
         return new Peep(
                 value.uid,
                 value.name,
-                convert(apiImage),
+                new Image(payload, timestamp),
                 value.lastSeen
         );
-    }
-
-    private Image convert(ApiImage apiImage) {
-        return new Image(apiImage.payload, apiImage.timestamp);
     }
 
 }
