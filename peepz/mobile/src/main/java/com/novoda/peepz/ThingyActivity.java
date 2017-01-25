@@ -1,6 +1,8 @@
 package com.novoda.peepz;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ataulm.rv.SpacesItemDecoration;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,25 +86,32 @@ public class ThingyActivity extends BaseActivity {
     private final SelfieView.Listener listener = new SelfieView.Listener() {
         @Override
         public void onPictureTaken(byte[] data) {
-            FirebaseUser user = firebaseApi().getSignedInUser();
-            long currentTimeMillis = System.currentTimeMillis();
+            final FirebaseUser user = firebaseApi().getSignedInUser();
+            final long currentTimeMillis = System.currentTimeMillis();
+            StorageReference destination = FirebaseStorage.getInstance().getReference().child(KEY_ROOT + "/" + user.getUid() + ".png");
 
-            // TODO: upload image to Firebase Storage
-//            String encodedImage = new StringBuilder("data:image/webp;base64,")
-//                    .append(Base64.encodeToString(data, Base64.DEFAULT))
-//                    .toString();
-            String urlToImageWithTokenToAccess = "http://www.fact.co.uk/media/1872716/Fantastic%20Mr%20Fox%205.jpg";
+            UploadTask uploadTask = destination.putBytes(data);
+            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUrl = task.getResult().getDownloadUrl();
 
-            ApiPeep apiPeep = ApiPeep.create(
-                    user.getUid(),
-                    user.getDisplayName(),
-                    urlToImageWithTokenToAccess,
-                    currentTimeMillis,
-                    currentTimeMillis
-            );
+                        ApiPeep apiPeep = ApiPeep.create(
+                                user.getUid(),
+                                user.getDisplayName(),
+                                downloadUrl.toString(),
+                                currentTimeMillis,
+                                currentTimeMillis
+                        );
 
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
+                    } else {
+                        // TODO: image upload failed - retry a couple times and then give up
+                    }
+                }
+            });
         }
     };
 
