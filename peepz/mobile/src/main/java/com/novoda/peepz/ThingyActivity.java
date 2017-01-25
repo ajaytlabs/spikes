@@ -86,7 +86,7 @@ public class ThingyActivity extends BaseActivity {
 //            String encodedImage = new StringBuilder("data:image/webp;base64,")
 //                    .append(Base64.encodeToString(data, Base64.DEFAULT))
 //                    .toString();
-            String urlToImageWithTokenToAccess = "";
+            String urlToImageWithTokenToAccess = "http://www.fact.co.uk/media/1872716/Fantastic%20Mr%20Fox%205.jpg";
 
             ApiPeep apiPeep = ApiPeep.create(
                     user.getUid(),
@@ -96,8 +96,8 @@ public class ThingyActivity extends BaseActivity {
                     currentTimeMillis
             );
 
-//            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            database.getReference(KEY_ROOT).child(user.getUid()).setValue(apiPeep);
         }
     };
 
