@@ -6,6 +6,5 @@ you'll need `google-services.json` from ataul or adam
 
 TODO:
 
-- Upload image to Firebase Storage
 - Implement CameraHelper to facilitate image capture without preview
 - Prettify
