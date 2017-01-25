@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ThingyActivity extends BaseActivity {
+public class PeepzActivity extends BaseActivity {
 
     private static final String KEY_ROOT = "wall";
 
@@ -42,7 +42,7 @@ public class ThingyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thingy);
+        setContentView(R.layout.activity_peepz);
         ButterKnife.bind(this);
 
         int spans = getResources().getInteger(R.integer.spans);

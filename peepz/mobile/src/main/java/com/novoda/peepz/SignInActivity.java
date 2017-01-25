@@ -40,7 +40,7 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void navigateToThingyAndFinish() {
-        startActivity(new Intent(this, ThingyActivity.class));
+        startActivity(new Intent(this, PeepzActivity.class));
         finish();
     }
 

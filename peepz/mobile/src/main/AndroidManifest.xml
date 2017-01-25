@@ -10,7 +10,7 @@
         android:theme="@style/Peepz">
 
         <activity android:name=".SignInActivity" />
-        <activity android:name=".ThingyActivity" />
+        <activity android:name=".PeepzActivity" />
 
         <activity-alias
             android:name="activity.primary_launcher"
