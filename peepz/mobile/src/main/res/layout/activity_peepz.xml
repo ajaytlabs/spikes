@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/peepz_collection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.novoda.peepz.SelfieView
-            android:id="@+id/thingy_selfie"
-            android:layout_width="match_parent"
-            android:layout_height="240dp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/thingy_collection"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="@dimen/grid_spacing_half" />
-
-    </LinearLayout>
+        android:clipToPadding="false"
+        android:padding="@dimen/grid_spacing_half" />
 
     <com.novoda.peepz.PeepzToolbar
         android:layout_width="match_parent"

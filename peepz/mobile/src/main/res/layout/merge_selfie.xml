@@ -17,11 +17,26 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <Button
-        android:id="@+id/selfie_button_swap"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:text="🔀"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/selfie_button_take_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📷"/>
+
+        <Button
+            android:id="@+id/selfie_button_swap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:text="🔀"/>
+
+    </LinearLayout>
 
 </merge>

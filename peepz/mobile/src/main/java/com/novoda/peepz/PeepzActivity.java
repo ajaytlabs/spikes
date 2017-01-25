@@ -3,7 +3,6 @@ package com.novoda.peepz;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,10 +33,7 @@ public class PeepzActivity extends BaseActivity {
 
     private static final String KEY_ROOT = "wall";
 
-    @BindView(R.id.thingy_selfie)
-    SelfieView selfieView;
-
-    @BindView(R.id.thingy_collection)
+    @BindView(R.id.peepz_collection)
     RecyclerView recyclerView;
 
     @Override
@@ -64,23 +61,10 @@ public class PeepzActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.thingy_take_picture) {
-            selfieView.takePicture();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        selfieView.attach(listener);
-    }
-
-    @Override
-    protected void onPause() {
-        selfieView.detachListeners();
-        super.onPause();
     }
 
     private final SelfieView.Listener listener = new SelfieView.Listener() {
@@ -138,26 +122,14 @@ public class PeepzActivity extends BaseActivity {
     }
 
     private void onNext(List<Peep> peepz) {
-        Peep user = findUserIn(peepz);
-        peepz.remove(user);
-        selfieView.bind(user);
-
         if (recyclerView.getAdapter() == null) {
-            PeepAdapter peepAdapter = new PeepAdapter(peepz);
+            String signedInUserUid = firebaseApi().getSignedInUser().getUid();
+            Comparator<Peep> comparator = new SignedInUserIsFirstPeepzComparator(signedInUserUid);
+            PeepAdapter peepAdapter = new PeepAdapter(peepz, comparator);
             recyclerView.setAdapter(peepAdapter);
         } else {
             ((PeepAdapter) recyclerView.getAdapter()).update(peepz);
         }
-    }
-
-    @Nullable
-    private Peep findUserIn(List<Peep> peepz) {
-        for (Peep peep : peepz) {
-            if (peep.id().equals(firebaseApi().getSignedInUser().getUid())) {
-                return peep;
-            }
-        }
-        return null;
     }
 
 }

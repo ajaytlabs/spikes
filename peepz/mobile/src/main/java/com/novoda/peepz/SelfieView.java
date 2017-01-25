@@ -24,6 +24,9 @@ class SelfieView extends FrameLayout {
     @BindView(R.id.selfie_button_swap)
     Button swapButton;
 
+    @BindView(R.id.selfie_button_take_picture)
+    Button takePictureButton;
+
     private Listener listener;
 
     public SelfieView(Context context, AttributeSet attrs) {
