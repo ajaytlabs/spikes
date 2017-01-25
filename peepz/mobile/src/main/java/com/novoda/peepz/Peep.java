@@ -6,12 +6,14 @@ class Peep {
     private final String name;
     private final Image image;
     private final long lastSeen;
+    private final OnlineStatus onlineStatus;
 
-    Peep(String id, String name, Image image, long lastSeen) {
+    Peep(String id, String name, Image image, long lastSeen, OnlineStatus onlineStatus) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.lastSeen = lastSeen;
+        this.onlineStatus = onlineStatus;
     }
 
     public String id() {
@@ -28,6 +30,18 @@ class Peep {
 
     public long lastSeen() {
         return lastSeen;
+    }
+
+    public OnlineStatus onlineStatus() {
+        return onlineStatus;
+    }
+
+    public enum OnlineStatus {
+
+        FRESH,
+        STALE,
+        OFFLINE
+
     }
 
 }

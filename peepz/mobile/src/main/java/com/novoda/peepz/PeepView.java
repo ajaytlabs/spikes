@@ -1,6 +1,8 @@
 package com.novoda.peepz;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +24,9 @@ public class PeepView extends FrameLayout {
 
     @BindView(R.id.peep_image)
     ImageView imageView;
+
+    @BindView(R.id.peep_online_status)
+    View onlineStatusView;
 
     public PeepView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +56,22 @@ public class PeepView extends FrameLayout {
     public void bind(Peep peep) {
         nameTextView.setText(peep.name());
         Glide.with(getContext()).load(peep.image().payload()).into(imageView);
+
+        int onlineStatusColor = getOnlineStatusColor(peep);
+        onlineStatusView.setBackgroundColor(onlineStatusColor);
+    }
+
+    @ColorInt
+    private int getOnlineStatusColor(Peep peep) {
+        switch (peep.onlineStatus()) {
+            case FRESH:
+                return ContextCompat.getColor(getContext(), android.R.color.holo_green_light);
+            case STALE:
+                return ContextCompat.getColor(getContext(), android.R.color.holo_orange_light);
+            case OFFLINE:
+            default:
+                return ContextCompat.getColor(getContext(), android.R.color.holo_red_light);
+        }
     }
 
 }
