@@ -1,8 +1,5 @@
 package com.novoda.peepz;
 
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
-
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.concurrent.TimeUnit;
