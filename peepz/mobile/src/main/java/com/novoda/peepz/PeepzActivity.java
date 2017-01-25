@@ -1,5 +1,6 @@
 package com.novoda.peepz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,13 +45,15 @@ public class PeepzActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.thingy, menu);
+        getMenuInflater().inflate(R.menu.peepz, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.thingy_take_picture) {
+        if (item.getItemId() == R.id.peepz_menu_take_picture) {
+            // TODO: might wanna go startActivityForResult unless selfieActivity stays there til picture is uploaded
+            startActivity(new Intent(this, SelfieActivity.class));
             return true;
         } else {
             return super.onOptionsItemSelected(item);
