@@ -12,8 +12,7 @@ class PeepAdapter extends RecyclerView.Adapter<PeepViewHolder> {
     private final Comparator<Peep> comparator;
     private List<Peep> peepz;
 
-    public PeepAdapter(List<Peep> peepz, Comparator<Peep> comparator) {
-        this.peepz = peepz;
+    public PeepAdapter(Comparator<Peep> comparator) {
         this.comparator = comparator;
         super.setHasStableIds(true);
     }

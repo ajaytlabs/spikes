@@ -90,8 +90,9 @@ public class PeepzActivity extends BaseActivity {
     private void onNext(List<Peep> peepz) {
         if (recyclerView.getAdapter() == null) {
             String signedInUserUid = firebaseApi().getSignedInUser().getUid();
-            Comparator<Peep> comparator = new SignedInUserIsFirstPeepComparator(signedInUserUid);
-            PeepAdapter peepAdapter = new PeepAdapter(peepz, comparator);
+            Comparator<Peep> comparator = new PeepCompoundComparator(new SignedInUserIsFirstPeepComparator(signedInUserUid), new LastSeenPeepComparator());
+            PeepAdapter peepAdapter = new PeepAdapter(comparator);
+            peepAdapter.update(peepz);
             recyclerView.setAdapter(peepAdapter);
         } else {
             ((PeepAdapter) recyclerView.getAdapter()).update(peepz);
