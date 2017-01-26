@@ -24,21 +24,21 @@ public class SignedInUserIsFirstPeepzComparatorTest {
     public void signedInUserIsGreaterThanRandomUser() {
         int compare = comparator.compare(PEEP_SIGNED_IN, PEEP_RANDOM);
 
-        Assertions.assertThat(compare).isEqualTo(1);
+        assertThat(compare).isEqualTo(-1);
     }
 
     @Test
     public void randomUserIsSameAsRandomUser() {
         int compare = comparator.compare(PEEP_RANDOM, PEEP_ANOTHER_RANDOM);
 
-        Assertions.assertThat(compare).isEqualTo(0);
+        assertThat(compare).isEqualTo(0);
     }
 
     @Test
     public void randomUserIsLessThanSignedInUser() {
         int compare = comparator.compare(PEEP_RANDOM, PEEP_SIGNED_IN);
 
-        Assertions.assertThat(compare).isEqualTo(-1);
+        assertThat(compare).isEqualTo(1);
     }
 
     private static Peep peep(String id) {
