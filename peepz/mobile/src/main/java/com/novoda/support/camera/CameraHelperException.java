@@ -1,4 +1,4 @@
-package com.novoda.peepz;
+package com.novoda.support.camera;
 
 import android.hardware.camera2.CameraAccessException;
 
