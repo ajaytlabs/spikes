@@ -9,7 +9,7 @@ class Converter {
     private static final int MAX_AGE_MINUTES_FRESH = 6;
     private static final int MAX_AGE_MINUTES_STALE = 15;
 
-    public Peep convert(DataSnapshot dataSnapshot) {
+    public Peep convert(DataSnapshot dataSnapshot) throws ConverterException {
         ApiPeep value = dataSnapshot.getValue(ApiPeep.class);
 
         Image image = null;
@@ -19,6 +19,9 @@ class Converter {
             image = new Image(payload, timestamp);
         }
 
+        if (value.uid == null || value.name == null) {
+            throw new ConverterException();
+        }
 
         return new Peep(
                 value.uid,
@@ -27,6 +30,9 @@ class Converter {
                 value.lastSeen,
                 getOnlineStatusFor(value)
         );
+    }
+
+    public static class ConverterException extends Exception {
     }
 
     private Peep.OnlineStatus getOnlineStatusFor(ApiPeep value) {

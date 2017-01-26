@@ -13,12 +13,31 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SelfieActivity extends BaseActivity {
+
+    @BindView(R.id.selfie_view)
+    SelfieView selfieView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selfieView.attach(listener);
+    }
+
+    @Override
+    protected void onPause() {
+        selfieView.detachListeners();
+        super.onPause();
     }
 
     private final SelfieView.Listener listener = new SelfieView.Listener() {

@@ -1,42 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.google.android.cameraview.CameraView
-        android:id="@+id/selfie_camera_preview"
+    <com.novoda.peepz.SelfieLiveWidget
+        android:id="@+id/selfie_live"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.novoda.peepz.SelfiePreviewWidget
+        android:id="@+id/selfie_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:keepScreenOn="true"
-        app:autoFocus="true"
-        app:facing="front"
-        app:flash="off" />
-
-    <ImageView
-        android:id="@+id/selfie_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/selfie_button_take_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="📷"/>
-
-        <Button
-            android:id="@+id/selfie_button_swap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:text="🔀"/>
-
-    </LinearLayout>
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 
 </merge>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -69,8 +70,12 @@ public class PeepzActivity extends BaseActivity {
                 Converter converter = new Converter();
                 List<Peep> peepz = new ArrayList<>((int) wall.getChildrenCount());
                 for (DataSnapshot item : wall.getChildren()) {
-                    Peep peep = converter.convert(item);
-                    peepz.add(peep);
+                    try {
+                        Peep peep = converter.convert(item);
+                        peepz.add(peep);
+                    } catch (Converter.ConverterException e) {
+                        Log.e("!!!", "error converting peep: " + item);
+                    }
                 }
                 onNext(peepz);
             }
