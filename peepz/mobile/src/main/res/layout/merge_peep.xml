@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/peep_image"
@@ -7,11 +8,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <TextView
+    <com.novoda.support.FontTextView
         android:id="@+id/peep_text_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:textFont="montserratRegular" />
 
     <View
         android:id="@+id/peep_online_status"
