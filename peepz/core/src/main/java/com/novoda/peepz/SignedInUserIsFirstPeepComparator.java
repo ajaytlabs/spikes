@@ -2,11 +2,11 @@ package com.novoda.peepz;
 
 import java.util.Comparator;
 
-class SignedInUserIsFirstPeepzComparator implements Comparator<Peep> {
+class SignedInUserIsFirstPeepComparator implements Comparator<Peep> {
 
     private final String signedInUserUid;
 
-    SignedInUserIsFirstPeepzComparator(String signedInUserUid) {
+    SignedInUserIsFirstPeepComparator(String signedInUserUid) {
         this.signedInUserUid = signedInUserUid;
     }
 

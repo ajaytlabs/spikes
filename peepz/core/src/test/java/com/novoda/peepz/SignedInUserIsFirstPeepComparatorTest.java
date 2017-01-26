@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class SignedInUserIsFirstPeepzComparatorTest {
+public class SignedInUserIsFirstPeepComparatorTest {
 
     private static final String SIGNED_IN_USER_ID = "signedInUserId";
 
@@ -13,15 +13,15 @@ public class SignedInUserIsFirstPeepzComparatorTest {
     private static final Peep PEEP_RANDOM = peep("any");
     private static final Peep PEEP_ANOTHER_RANDOM = peep("anyOther");
 
-    SignedInUserIsFirstPeepzComparator comparator;
+    SignedInUserIsFirstPeepComparator comparator;
 
     @Before
     public void setUp() {
-        comparator = new SignedInUserIsFirstPeepzComparator(SIGNED_IN_USER_ID);
+        comparator = new SignedInUserIsFirstPeepComparator(SIGNED_IN_USER_ID);
     }
 
     @Test
-    public void signedInUserIsGreaterThanRandomUser() {
+    public void signedInUserIsLessThanRandomUser() {
         int compare = comparator.compare(PEEP_SIGNED_IN, PEEP_RANDOM);
 
         assertThat(compare).isEqualTo(-1);
@@ -35,7 +35,7 @@ public class SignedInUserIsFirstPeepzComparatorTest {
     }
 
     @Test
-    public void randomUserIsLessThanSignedInUser() {
+    public void randomUserIsGreaterThanSignedInUser() {
         int compare = comparator.compare(PEEP_RANDOM, PEEP_SIGNED_IN);
 
         assertThat(compare).isEqualTo(1);
