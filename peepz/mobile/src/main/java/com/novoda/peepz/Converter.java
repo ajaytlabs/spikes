@@ -12,13 +12,18 @@ class Converter {
     public Peep convert(DataSnapshot dataSnapshot) {
         ApiPeep value = dataSnapshot.getValue(ApiPeep.class);
 
-        String payload = (String) value.image.get(ApiPeep.KEY_IMAGE_PAYLOAD);
-        long timestamp = (long) value.image.get(ApiPeep.KEY_IMAGE_TIMESTAMP);
+        Image image = null;
+        if (value.image != null) {
+            String payload = (String) value.image.get(ApiPeep.KEY_IMAGE_PAYLOAD);
+            long timestamp = (long) value.image.get(ApiPeep.KEY_IMAGE_TIMESTAMP);
+            image = new Image(payload, timestamp);
+        }
+
 
         return new Peep(
                 value.uid,
                 value.name,
-                new Image(payload, timestamp),
+                image,
                 value.lastSeen,
                 getOnlineStatusFor(value)
         );

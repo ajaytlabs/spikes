@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,7 +53,12 @@ public class PeepView extends FrameLayout {
 
     public void bind(Peep peep) {
         nameTextView.setText(peep.name());
-        Glide.with(getContext()).load(peep.image().payload()).into(imageView);
+
+        if (peep.image() != null) {
+            Glide.with(getContext()).load(peep.image().payload()).into(imageView);
+        } else {
+            imageView.setImageBitmap(null);
+        }
 
         int onlineStatusColor = getOnlineStatusColor(peep);
         onlineStatusView.setBackgroundColor(onlineStatusColor);

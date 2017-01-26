@@ -84,7 +84,11 @@ class SelfieView extends FrameLayout {
     };
 
     public void bind(Peep peep) {
-        Glide.with(getContext()).load(peep.image().payload()).into(imageView);
+        if (peep.image() != null) {
+            Glide.with(getContext()).load(peep.image().payload()).into(imageView);
+        } else {
+            imageView.setImageBitmap(null);
+        }
     }
 
     public void takePicture() {

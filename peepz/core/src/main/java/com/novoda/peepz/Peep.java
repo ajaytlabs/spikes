@@ -1,5 +1,7 @@
 package com.novoda.peepz;
 
+import javax.annotation.Nullable;
+
 class Peep {
 
     private final String id;
@@ -8,7 +10,7 @@ class Peep {
     private final long lastSeen;
     private final OnlineStatus onlineStatus;
 
-    Peep(String id, String name, Image image, long lastSeen, OnlineStatus onlineStatus) {
+    Peep(String id, String name, @Nullable Image image, long lastSeen, OnlineStatus onlineStatus) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -24,6 +26,7 @@ class Peep {
         return name;
     }
 
+    @Nullable
     public Image image() {
         return image;
     }
