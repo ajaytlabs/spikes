@@ -39,15 +39,7 @@ public class PeepView extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int heightPixels = ((ViewGroup) getParent()).getHeight();
-
-        int peekPx = getResources().getDimensionPixelSize(R.dimen.size_peek);
-        int leftOverHeightPx = heightPixels - peekPx;
-
-        int columns = getResources().getInteger(R.integer.spans);
-        int desiredHeight = leftOverHeightPx / columns;
-
-        int desiredHeightMeasureSpec = MeasureSpec.makeMeasureSpec(desiredHeight, MeasureSpec.EXACTLY);
+        int desiredHeightMeasureSpec = widthMeasureSpec;
         super.onMeasure(widthMeasureSpec, desiredHeightMeasureSpec);
     }
 
