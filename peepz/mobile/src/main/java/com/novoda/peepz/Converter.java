@@ -11,16 +11,17 @@ class Converter {
     public Peep convert(DataSnapshot dataSnapshot) throws ConverterException {
         ApiPeep value = dataSnapshot.getValue(ApiPeep.class);
 
-        Image image = null;
-        if (value.image != null) {
-            String payload = (String) value.image.get(ApiPeep.KEY_IMAGE_PAYLOAD);
-            long timestamp = (long) value.image.get(ApiPeep.KEY_IMAGE_TIMESTAMP);
-            image = new Image(payload, timestamp);
+        if (value.uid == null || value.name == null) {
+            throw new ConverterException("missing uid or name");
         }
 
-        if (value.uid == null || value.name == null) {
-            throw new ConverterException();
+        if (value.image == null) {
+            throw new ConverterException("missing image");
         }
+
+        String payload = (String) value.image.get(ApiPeep.KEY_IMAGE_PAYLOAD);
+        long timestamp = (long) value.image.get(ApiPeep.KEY_IMAGE_TIMESTAMP);
+        Image image = new Image(payload, timestamp);
 
         return new Peep(
                 value.uid,
@@ -43,6 +44,10 @@ class Converter {
     }
 
     public static class ConverterException extends Exception {
+
+        public ConverterException(String message) {
+            super(message);
+        }
     }
 
 }
