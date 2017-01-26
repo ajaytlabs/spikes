@@ -1,11 +1,12 @@
 package com.novoda.peepz;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PeepView extends FrameLayout {
+
+    private static final ColorFilter GRAYSCALE_FILTER;
+
+    static {
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+        GRAYSCALE_FILTER = new ColorMatrixColorFilter(matrix);
+    }
 
     @BindView(R.id.peep_text_name)
     TextView nameTextView;
@@ -44,28 +53,28 @@ public class PeepView extends FrameLayout {
     }
 
     public void bind(Peep peep) {
-        nameTextView.setText(peep.name());
+        String name = getDisplayNameFrom(peep);
+        nameTextView.setText(name);
+        imageView.setColorFilter(getColorFilterFor(peep.onlineStatus()));
 
         if (peep.image() != null) {
             Glide.with(getContext()).load(peep.image().payload()).into(imageView);
         } else {
             imageView.setImageBitmap(null);
         }
-
-        int onlineStatusColor = getOnlineStatusColor(peep);
-        onlineStatusView.setBackgroundColor(onlineStatusColor);
     }
 
-    @ColorInt
-    private int getOnlineStatusColor(Peep peep) {
-        switch (peep.onlineStatus()) {
-            case FRESH:
-                return ContextCompat.getColor(getContext(), android.R.color.holo_green_light);
-            case STALE:
-                return ContextCompat.getColor(getContext(), android.R.color.holo_orange_light);
-            case OFFLINE:
-            default:
-                return ContextCompat.getColor(getContext(), android.R.color.holo_red_light);
+    private String getDisplayNameFrom(Peep peep) {
+        String[] names = peep.name().split(" ");
+        return names.length == 1 ? names[0] : names[0] + " " + names[names.length - 1].substring(0, 1);
+    }
+
+    @Nullable
+    private ColorFilter getColorFilterFor(Peep.OnlineStatus status) {
+        if (status == Peep.OnlineStatus.STALE) {
+            return GRAYSCALE_FILTER;
+        } else {
+            return null;
         }
     }
 

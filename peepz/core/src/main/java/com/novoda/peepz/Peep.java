@@ -42,8 +42,7 @@ class Peep {
     public enum OnlineStatus {
 
         FRESH,
-        STALE,
-        OFFLINE
+        STALE
 
     }
 
