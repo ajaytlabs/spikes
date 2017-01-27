@@ -1,4 +1,4 @@
-package com.novoda.toggletalkback;
+package com.novoda.talkbacktoggle;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.provider.Settings;
 
 public class TalkBackStateSettingActivity extends Activity {
 
-    static final String ACTION_ENABLE_TALKBACK = "com.novoda.toggletalkback.ENABLE_TALKBACK";
-    static final String ACTION_DISABLE_TALKBACK = "com.novoda.toggletalkback.DISABLE_TALKBACK";
+    static final String ACTION_ENABLE_TALKBACK = "com.novoda.talkbacktoggle.ENABLE_TALKBACK";
+    static final String ACTION_DISABLE_TALKBACK = "com.novoda.talkbacktoggle.DISABLE_TALKBACK";
 
     private static final String TALKBACK_SERVICE_NAME = "com.google.android.marvin.talkback/.TalkBackService";
     private static final String VALUE_DISABLED = "0";

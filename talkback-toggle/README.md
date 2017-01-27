@@ -11,8 +11,8 @@ Run the demo test suite on your device (or emulator) with these commands (TalkBa
 As you've read above, you can enable/disable TalkBack via adb with the following actions:
 
 ```bash
-$ adb shell am start -a "com.novoda.toggletalkback.ENABLE_TALKBACK"
-$ adb shell am start -a "com.novoda.toggletalkback.DISABLE_TALKBACK"
+$ adb shell am start -a "com.novoda.talkbacktoggle.ENABLE_TALKBACK"
+$ adb shell am start -a "com.novoda.talkbacktoggle.DISABLE_TALKBACK"
 ```
 
 You can also do the same with an Intent, as is done in the `TalkBackActivityTestRule`:

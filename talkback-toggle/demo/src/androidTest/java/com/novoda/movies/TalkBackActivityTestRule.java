@@ -7,8 +7,8 @@ import android.support.test.rule.ActivityTestRule;
 
 public class TalkBackActivityTestRule<T extends Activity> extends ActivityTestRule<T> {
 
-    private static final String ENABLE_TALKBACK = "com.novoda.toggletalkback.ENABLE_TALKBACK";
-    private static final String DISABLE_TALKBACK = "com.novoda.toggletalkback.DISABLE_TALKBACK";
+    private static final String ENABLE_TALKBACK = "com.novoda.talkbacktoggle.ENABLE_TALKBACK";
+    private static final String DISABLE_TALKBACK = "com.novoda.talkbacktoggle.DISABLE_TALKBACK";
 
     public TalkBackActivityTestRule(Class<T> activityClass) {
         super(activityClass);
