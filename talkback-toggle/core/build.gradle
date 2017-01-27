@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
 
 android {
     compileSdkVersion 25
@@ -7,4 +8,16 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+}
+
+publish {
+    userOrg = 'novoda'
+    repoName = 'maven'
+    groupId = 'com.novoda'
+    artifactId = 'talkback-toggle'
+    version = project.version
+
+    uploadName = 'talkback-toggle'
+    description = 'Programmatic toggle of TalkBack service via sending of intent'
+    website = 'https://github.com/novoda/spikes/tree/master/talkback-toggle'
 }
