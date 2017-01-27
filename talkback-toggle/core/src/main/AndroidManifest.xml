@@ -6,20 +6,9 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.novoda.toggletalkback.MyActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>>
-
-        <activity android:name="com.novoda.toggletalkback.TalkBackStateSettingActivity">
+        <activity android:name=".TalkBackStateSettingActivity">
 
             <intent-filter>
                 <action android:name="com.novoda.toggletalkback.ENABLE_TALKBACK" />

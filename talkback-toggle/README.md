@@ -5,7 +5,7 @@ We want to be able to turn TalkBack on and off programmatically so we can run co
 Run the demo test suite on your device (or emulator) with these commands (TalkBack must be installed on the device first):
 
 ```bash
-./gradlew core:installDebug; adb shell pm grant com.novoda.toggletalkback android.permission.WRITE_SECURE_SETTINGS; adb shell am start -a "com.novoda.toggletalkback.DISABLE_TALKBACK"; ./gradlew demo:cDebugAT; adb shell am start -a "com.novoda.toggletalkback.DISABLE_TALKBACK";
+./gradlew demo:installEspresso; adb shell pm grant com.novoda.movies android.permission.WRITE_SECURE_SETTINGS; adb shell am start -a "com.novoda.toggletalkback.DISABLE_TALKBACK"; ./gradlew demo:cAT; adb shell am start -a "com.novoda.toggletalkback.DISABLE_TALKBACK";
 ```
 
 As you've read above, you can enable/disable TalkBack via adb with the following actions:

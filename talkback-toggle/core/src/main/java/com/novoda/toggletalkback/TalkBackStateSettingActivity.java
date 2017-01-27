@@ -1,12 +1,11 @@
 package com.novoda.toggletalkback;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
-public class TalkBackStateSettingActivity extends AppCompatActivity {
+public class TalkBackStateSettingActivity extends Activity {
 
     static final String ACTION_ENABLE_TALKBACK = "com.novoda.toggletalkback.ENABLE_TALKBACK";
     static final String ACTION_DISABLE_TALKBACK = "com.novoda.toggletalkback.DISABLE_TALKBACK";
@@ -16,7 +15,7 @@ public class TalkBackStateSettingActivity extends AppCompatActivity {
     private static final String VALUE_ENABLED = "1";
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
 
