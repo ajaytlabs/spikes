@@ -15,20 +15,37 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('connect_as_bot', function(user, callback) {
-        joinAsBot(socket, callback)
+        connectAsBot(socket, callback)
+    })
+
+    socket.on('disconnect', function() {
+        removeClient(socket);
+        disconnectBot(socket)
     })
 
 });
 
 var addClient = function(socket) {
-    console.log("new client connected: " + socket.id);
+    console.log("Client connected: " + socket.id);
     sockets = socket;
 }
 
-var joinAsBot = function(user, callback) {
+var removeClient = function(socket) {
+    console.log("Client disconnected: " + socket.id);
+    sockets[socket.id] = undefined;
+}
+
+var connectAsBot = function(user, callback) {
     if(!bots.contains(user.id)) {
         bots.addBot(user.id);
         callback(bots.bots());
-        console.log('bot connected: ' + user.id);
+        console.log('Bot connected: ' + user.id);
+    }
+}
+
+var disconnectBot = function(user) {
+    if(bots.contains(user.id)) {
+        bots.removeBot(user.id);
+        console.log('Bot disconnected: ' + user.id);
     }
 }

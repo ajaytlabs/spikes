@@ -7,7 +7,7 @@ Bots.prototype.addBot = function(bot) {
 };
 
 Bots.prototype.removeBot = function(bot) {
-    this.botStack.splice(botStack.indexOf(bot), 1);
+    this.botStack.splice(this.botStack.indexOf(bot), 1);
 };
 
 Bots.prototype.bots = function() {
