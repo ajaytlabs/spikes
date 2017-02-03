@@ -1,5 +1,6 @@
 var should = require('should');
 var io = require('socket.io-client');
+var test = require('unit.js');
 
 var socketURL = 'http://0.0.0.0:5000'
 
@@ -12,29 +13,25 @@ var chatUser1 = {'name':'Tom'};
 var chatUser2 = {'name':'Sally'};
 var chatUser3 = {'name':'Dana'};
 
-describe("Chat Server",function() {
+var expectedArray = [chatUser1];
 
-    it('Should add new Bot to botStack', function(done) {
-        var human = io.connect(socketURL, options);
+describe("TelepresenceBot Server",function() {
+
+    it('Should add new Bot to list of bots', function(done) {
         var bot = io.connect(socketURL, options);
 
-        human.emit('use_test_socket');
-
-        human.on('connect', function(data) {
-            console.log('test human connected');
-        })
+        bot.emit('use_test_socket');
 
         bot.on('connect', function(data) {
             console.log('test bot connected');
 
             bot.emit('join_as_bot', chatUser1, function(text) {
-                text.forEach(function (arrayItem) {
-                    var x = arrayItem.name;
-                    console.log(x);
-                });
+                console.log('callback received');
+
+                test.array(expectedArray)
+                    .is(text);
 
                 bot.disconnect;
-                human.disconnect;
                 done();
             });
         });

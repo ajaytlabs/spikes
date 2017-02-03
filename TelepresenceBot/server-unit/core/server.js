@@ -14,9 +14,7 @@ io.sockets.on('connection', function (socket) {
         console.log('bot joined ' + user.name);
         bots.addBot(user);
 
-        if(useTestSocket) {
-            callback(bots.bots());
-        }
+        callback(bots.bots());
     })
 
 });
