@@ -15,7 +15,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('connect_as_bot', function(user, callback) {
-        joinAsBot(user, callback)
+        joinAsBot(socket, callback)
     })
 
 });
@@ -26,9 +26,9 @@ var addClient = function(socket) {
 }
 
 var joinAsBot = function(user, callback) {
-    if(!bots.contains(user)) {
-        bots.addBot(user);
+    if(!bots.contains(user.id)) {
+        bots.addBot(user.id);
         callback(bots.bots());
-        console.log('bot connected: ' + user.name);
+        console.log('bot connected: ' + user.id);
     }
 }
