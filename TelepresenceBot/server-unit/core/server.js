@@ -14,7 +14,7 @@ io.sockets.on('connection', function (socket) {
         useTestSocket = true;
     });
 
-    socket.on('join_as_bot', function(user, callback) {
+    socket.on('connect_as_bot', function(user, callback) {
         joinAsBot(user, callback)
     })
 

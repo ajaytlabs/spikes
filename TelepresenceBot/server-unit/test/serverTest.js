@@ -25,7 +25,7 @@ describe("TelepresenceBot Server",function() {
         bot.on('connect', function(data) {
             console.log('test bot connected');
 
-            bot.emit('join_as_bot', chatUser1, callback);
+            bot.emit('connect_as_bot', chatUser1, callback);
         });
 
         var callback = function(text) {
