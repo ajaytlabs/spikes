@@ -25,16 +25,18 @@ describe("TelepresenceBot Server",function() {
         bot.on('connect', function(data) {
             console.log('test bot connected');
 
-            bot.emit('join_as_bot', chatUser1, function(text) {
-                console.log('callback received');
-
-                test.array(expectedArray)
-                    .is(text);
-
-                bot.disconnect;
-                done();
-            });
+            bot.emit('join_as_bot', chatUser1, callback);
         });
+
+        var callback = function(text) {
+            console.log('callback received');
+
+            test.array(expectedArray)
+                .is(text);
+
+            bot.disconnect;
+            done();
+        }
 
     });
 
