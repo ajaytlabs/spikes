@@ -17,7 +17,7 @@ var expectedArray = [chatUser1];
 
 describe("TelepresenceBot Server",function() {
 
-    it('Should add new Bot to list of bots', function(done) {
+    it('Should add new bot to list of bots', function(done) {
         var bot = io.connect(socketURL, options);
 
         bot.emit('use_test_socket');
