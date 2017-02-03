@@ -8,6 +8,8 @@ var sockets = {};
 
 io.sockets.on('connection', function (socket) {
 
+    addClient(socket);
+
     socket.on('use_test_socket', function() {
         useTestSocket = true;
     });
@@ -17,6 +19,11 @@ io.sockets.on('connection', function (socket) {
     })
 
 });
+
+var addClient = function(socket) {
+    console.log("new client connected: " + socket.id);
+    sockets = socket;
+}
 
 var joinAsBot = function(user, callback) {
     if(!bots.contains(user)) {
