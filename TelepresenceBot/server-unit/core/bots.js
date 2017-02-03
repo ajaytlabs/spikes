@@ -1,25 +1,25 @@
-function Bot() {}
+function Bots() {}
 
-Bot.prototype.botStack = [];
+Bots.prototype.botStack = [];
 
-Bot.prototype.addBot = function(bot) {
+Bots.prototype.addBot = function(bot) {
     this.botStack.push(bot);
 };
 
-Bot.prototype.removeBot = function(bot) {
+Bots.prototype.removeBot = function(bot) {
     this.botStack.splice(botStack.indexOf(bot), 1);
 };
 
-Bot.prototype.bots = function() {
+Bots.prototype.bots = function() {
     return this.botStack;
 };
 
-Bot.prototype.isBotAvailable = function() {
+Bots.prototype.isBotAvailable = function() {
     return botStack.length > 0;
 }
 
-Bot.prototype.contains = function(bot) {
+Bots.prototype.contains = function(bot) {
     return this.botStack.includes(bot);
 }
 
-module.exports = Bot;
+module.exports = Bots;
