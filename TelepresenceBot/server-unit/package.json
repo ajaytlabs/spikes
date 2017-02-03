@@ -1,0 +1,9 @@
+{
+  "name": "telepresence bot server",
+  "version": "0.0.1",
+  "description": "Server implementation of the telepresence bot",
+  "dependencies": {
+    "express": "^4.10.2",
+    "socket.io": "^1.5.1"
+  }
+}
