@@ -20,11 +20,11 @@ describe("TelepresenceBot Server",function() {
             bot.emit('connect_bot', callback);
         });
 
-        var callback = function(text) {
+        var callback = function(actualBots) {
             var expectedBots = [bot.id];
 
             test.array(expectedBots)
-                .is(text);
+                .is(actualBots);
 
             bot.disconnect();
             done();
@@ -42,11 +42,11 @@ describe("TelepresenceBot Server",function() {
             bot.emit('connect_bot', callback);
         });
 
-        var callback = function(text) {
+        var callback = function(actualBots) {
             var expectedBots = [bot.id];
 
             test.array(expectedBots)
-                .is(text);
+                .is(actualBots);
 
             bot.disconnect();
             done();
@@ -64,11 +64,11 @@ describe("TelepresenceBot Server",function() {
             bot.emit('disconnect_bot', callback);
         });
 
-        var callback = function(text) {
+        var callback = function(actualBots) {
             var expectedBots = [];
 
             test.array(expectedBots)
-                .is(text);
+                .is(actualBots);
 
             bot.disconnect();
             done();
