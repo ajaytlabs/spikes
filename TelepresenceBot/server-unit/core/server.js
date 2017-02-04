@@ -2,7 +2,7 @@ var io = require('socket.io').listen(5000);
 var botModule = require("./bots.js");
 
 var bots = new botModule();
-var useTestSocket = false;
+var testSocketEnabled = false;
 
 var sockets = {};
 
@@ -11,7 +11,7 @@ io.sockets.on('connection', function (socket) {
     connectClient(socket);
 
     socket.on('enable_test_socket', function() {
-        useTestSocket = true;
+        testSocketEnabled = true;
     });
 
     socket.on('connect_bot', function(callback) {
@@ -58,7 +58,7 @@ var disconnectBot = function(bot, callback) {
 var determineBotCallback = function(callback) {
     if(callback == undefined) {
         return;
-    } else if(useTestSocket) {
+    } else if(testSocketEnabled) {
         callback(bots.bots());
     } else {
         callback("message");
