@@ -19,7 +19,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('disconnect_bot', function(callback) {
-        connectBot(socket, callback)
+        disconnectBot(socket, callback)
     })
 
     socket.on('disconnect', function() {
@@ -47,9 +47,12 @@ var connectBot = function(bot, callback) {
     }
 }
 
-var disconnectBot = function(bot) {
+var disconnectBot = function(bot, callback) {
     if(bots.contains(bot.id)) {
         bots.removeBot(bot.id);
+        if(callback != undefined) {
+            callback(bots.bots());
+        }
         console.log('Bot disconnected: ' + bot.id);
     }
 }

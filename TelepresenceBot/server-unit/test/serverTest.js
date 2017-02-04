@@ -60,13 +60,12 @@ describe("TelepresenceBot Server",function() {
         bot.emit('enable_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_bot', callback);
+            bot.emit('connect_bot', function(){});
+            bot.emit('disconnect_bot', callback);
         });
 
-
-
         var callback = function(text) {
-            var expectedBots = [bot.id];
+            var expectedBots = [];
 
             test.array(expectedBots)
                 .is(text);
