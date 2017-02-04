@@ -14,7 +14,11 @@ io.sockets.on('connection', function (socket) {
         useTestSocket = true;
     });
 
-    socket.on('connect_bot', function(user, callback) {
+    socket.on('connect_bot', function(callback) {
+        connectBot(socket, callback)
+    })
+
+    socket.on('disconnect_bot', function(callback) {
         connectBot(socket, callback)
     })
 
@@ -35,17 +39,17 @@ var disconnectClient = function(socket) {
     console.log("Client disconnected: " + socket.id);
 }
 
-var connectBot = function(user, callback) {
-    if(!bots.contains(user.id)) {
-        bots.addBot(user.id);
+var connectBot = function(bot, callback) {
+    if(!bots.contains(bot.id)) {
+        bots.addBot(bot.id);
         callback(bots.bots());
-        console.log('Bot connected: ' + user.id);
+        console.log('Bot connected: ' + bot.id);
     }
 }
 
-var disconnectBot = function(user) {
-    if(bots.contains(user.id)) {
-        bots.removeBot(user.id);
-        console.log('Bot disconnected: ' + user.id);
+var disconnectBot = function(bot) {
+    if(bots.contains(bot.id)) {
+        bots.removeBot(bot.id);
+        console.log('Bot disconnected: ' + bot.id);
     }
 }

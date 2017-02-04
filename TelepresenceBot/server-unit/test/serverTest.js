@@ -17,7 +17,7 @@ describe("TelepresenceBot Server",function() {
         bot.emit('use_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_bot', bot.id, callback);
+            bot.emit('connect_bot', callback);
         });
 
         var callback = function(text) {
@@ -38,9 +38,32 @@ describe("TelepresenceBot Server",function() {
         bot.emit('enable_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_bot', bot.id, callback);
-            bot.emit('connect_bot', bot.id, callback);
+            bot.emit('connect_bot', callback);
+            bot.emit('connect_bot', callback);
         });
+
+        var callback = function(text) {
+            var expectedBots = [bot.id];
+
+            test.array(expectedBots)
+                .is(text);
+
+            bot.disconnect();
+            done();
+        }
+
+    });
+
+    it('Should remove bot from list of bots on disconnection.', function(done) {
+        var bot = io.connect(socketURL, options);
+
+        bot.emit('enable_test_socket');
+
+        bot.on('connect', function(data) {
+            bot.emit('connect_bot', callback);
+        });
+
+
 
         var callback = function(text) {
             var expectedBots = [bot.id];
