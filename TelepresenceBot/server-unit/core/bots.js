@@ -3,11 +3,15 @@ function Bots() {}
 Bots.prototype.botStack = [];
 
 Bots.prototype.addBot = function(bot) {
-    this.botStack.push(bot);
+    if(!this.contains(bot)) {
+        this.botStack.push(bot);
+    }
 };
 
 Bots.prototype.removeBot = function(bot) {
-    this.botStack.splice(this.botStack.indexOf(bot), 1);
+    if(this.contains(bot)) {
+        this.botStack.splice(this.botStack.indexOf(bot), 1);
+    }
 };
 
 Bots.prototype.bots = function() {

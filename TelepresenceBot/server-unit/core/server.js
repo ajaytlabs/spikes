@@ -40,19 +40,15 @@ var disconnectClient = function(socket) {
 }
 
 var connectBot = function(bot, callback) {
-    if(!bots.contains(bot.id)) {
-        bots.addBot(bot.id);
-        callback(bots.bots());
-        console.log('Bot connected: ' + bot.id);
-    }
+    bots.addBot(bot.id);
+    callback(bots.bots());
+    console.log('Bot connected: ' + bot.id);
 }
 
 var disconnectBot = function(bot, callback) {
-    if(bots.contains(bot.id)) {
-        bots.removeBot(bot.id);
-        determineBotCallback(callback);
-        console.log('Bot disconnected: ' + bot.id);
-    }
+    bots.removeBot(bot.id);
+    determineBotCallback(callback);
+    console.log('Bot disconnected: ' + bot.id);
 }
 
 var determineBotCallback = function(callback) {
