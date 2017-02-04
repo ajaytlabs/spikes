@@ -57,7 +57,7 @@ describe("TelepresenceBot Server",function() {
         }
 
         var assertIgnored = function() {
-            test.true.isNot(true);
+            throw "assert should be ignored.";
         }
 
     });
