@@ -11,7 +11,7 @@ var options ={
 
 describe("TelepresenceBot Server",function() {
 
-    it('Should add new bot to list of bots.', function(done) {
+    it('Should add new bot to list of bots on connection.', function(done) {
         var bot = io.connect(socketURL, options);
 
         bot.emit('use_test_socket');
@@ -35,7 +35,7 @@ describe("TelepresenceBot Server",function() {
     it('Should ignore multiple connections from same bot.', function(done) {
         var bot = io.connect(socketURL, options);
 
-        bot.emit('use_test_socket');
+        bot.emit('enable_test_socket');
 
         bot.on('connect', function(data) {
             bot.emit('connect_bot', bot.id, callback);

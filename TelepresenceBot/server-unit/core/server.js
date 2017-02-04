@@ -10,7 +10,7 @@ io.sockets.on('connection', function (socket) {
 
     connectClient(socket);
 
-    socket.on('use_test_socket', function() {
+    socket.on('enable_test_socket', function() {
         useTestSocket = true;
     });
 
