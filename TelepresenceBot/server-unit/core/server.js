@@ -8,34 +8,34 @@ var sockets = {};
 
 io.sockets.on('connection', function (socket) {
 
-    addClient(socket);
+    connectClient(socket);
 
     socket.on('use_test_socket', function() {
         useTestSocket = true;
     });
 
     socket.on('connect_as_bot', function(user, callback) {
-        connectAsBot(socket, callback)
+        connectBot(socket, callback)
     })
 
     socket.on('disconnect', function() {
-        removeClient(socket);
-        disconnectBot(socket)
+        disconnectClient(socket);
+        disconnectBot(socket);
     })
 
 });
 
-var addClient = function(socket) {
+var connectClient = function(socket) {
     console.log("Client connected: " + socket.id);
     sockets = socket;
 }
 
-var removeClient = function(socket) {
+var disconnectClient = function(socket) {
     console.log("Client disconnected: " + socket.id);
     sockets[socket.id] = undefined;
 }
 
-var connectAsBot = function(user, callback) {
+var connectBot = function(user, callback) {
     if(!bots.contains(user.id)) {
         bots.addBot(user.id);
         callback(bots.bots());
