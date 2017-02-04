@@ -17,7 +17,7 @@ describe("TelepresenceBot Server",function() {
         bot.emit('use_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_as_bot', bot.id, callback);
+            bot.emit('connect_bot', bot.id, callback);
         });
 
         var callback = function(text) {
@@ -38,8 +38,8 @@ describe("TelepresenceBot Server",function() {
         bot.emit('use_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_as_bot', bot.id, callback);
-            bot.emit('connect_as_bot', bot.id, callback);
+            bot.emit('connect_bot', bot.id, callback);
+            bot.emit('connect_bot', bot.id, callback);
         });
 
         var callback = function(text) {

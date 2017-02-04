@@ -14,7 +14,7 @@ io.sockets.on('connection', function (socket) {
         useTestSocket = true;
     });
 
-    socket.on('connect_as_bot', function(user, callback) {
+    socket.on('connect_bot', function(user, callback) {
         connectBot(socket, callback)
     })
 
@@ -26,13 +26,13 @@ io.sockets.on('connection', function (socket) {
 });
 
 var connectClient = function(socket) {
-    console.log("Client connected: " + socket.id);
     sockets = socket;
+    console.log("Client connected: " + socket.id);
 }
 
 var disconnectClient = function(socket) {
-    console.log("Client disconnected: " + socket.id);
     sockets[socket.id] = undefined;
+    console.log("Client disconnected: " + socket.id);
 }
 
 var connectBot = function(user, callback) {
