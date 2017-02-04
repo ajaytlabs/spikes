@@ -50,9 +50,17 @@ var connectBot = function(bot, callback) {
 var disconnectBot = function(bot, callback) {
     if(bots.contains(bot.id)) {
         bots.removeBot(bot.id);
-        if(callback != undefined) {
-            callback(bots.bots());
-        }
+        determineBotCallback(callback);
         console.log('Bot disconnected: ' + bot.id);
+    }
+}
+
+var determineBotCallback = function(callback) {
+    if(callback == undefined) {
+        return;
+    } else if(useTestSocket) {
+        callback(bots.bots());
+    } else {
+        callback("message");
     }
 }
