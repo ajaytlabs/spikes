@@ -17,10 +17,10 @@ describe("TelepresenceBot Server",function() {
         bot.emit('use_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_bot', callback);
+            bot.emit('connect_bot', assertThatBotIsAdded);
         });
 
-        var callback = function(actualBots) {
+        var assertThatBotIsAdded = function(actualBots) {
             var expectedBots = [bot.id];
 
             test.array(expectedBots)
@@ -32,17 +32,21 @@ describe("TelepresenceBot Server",function() {
 
     });
 
+    var assertThat = function(actualBots) {
+
+    }
+
     it('Should ignore multiple connections from same bot.', function(done) {
         var bot = io.connect(socketURL, options);
 
         bot.emit('enable_test_socket');
 
         bot.on('connect', function(data) {
-            bot.emit('connect_bot', callback);
-            bot.emit('connect_bot', callback);
+            bot.emit('connect_bot', assertThatBotIsAdded);
+            bot.emit('connect_bot', assertIgnored);
         });
 
-        var callback = function(actualBots) {
+        var assertThatBotIsAdded = function(actualBots) {
             var expectedBots = [bot.id];
 
             test.array(expectedBots)
@@ -50,6 +54,10 @@ describe("TelepresenceBot Server",function() {
 
             bot.disconnect();
             done();
+        }
+
+        var assertIgnored = function() {
+            test.true.isNot(true);
         }
 
     });
@@ -61,10 +69,10 @@ describe("TelepresenceBot Server",function() {
 
         bot.on('connect', function(data) {
             bot.emit('connect_bot', function(){});
-            bot.emit('disconnect_bot', callback);
+            bot.emit('disconnect_bot', assertThatBotIsRemoved);
         });
 
-        var callback = function(actualBots) {
+        var assertThatBotIsRemoved = function(actualBots) {
             var expectedBots = [];
 
             test.array(expectedBots)
