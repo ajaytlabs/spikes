@@ -41,7 +41,7 @@ var disconnectClient = function(socket) {
 
 var connectBot = function(bot, callback) {
     bots.addBot(bot.id);
-    callback(bots.bots());
+    determineBotCallback(callback);
     console.log('Bot connected: ' + bot.id);
 }
 

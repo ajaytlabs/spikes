@@ -14,9 +14,8 @@ describe("TelepresenceBot Server",function() {
     it('Should add new bot to list of bots on connection.', function(done) {
         var bot = io.connect(socketURL, options);
 
-        bot.emit('use_test_socket');
-
         bot.on('connect', function(data) {
+            bot.emit('enable_test_socket');
             bot.emit('connect_bot', assertThatBotIsAdded);
         });
 
@@ -32,16 +31,11 @@ describe("TelepresenceBot Server",function() {
 
     });
 
-    var assertThat = function(actualBots) {
-
-    }
-
     it('Should ignore multiple connections from same bot.', function(done) {
         var bot = io.connect(socketURL, options);
 
-        bot.emit('enable_test_socket');
-
         bot.on('connect', function(data) {
+            bot.emit('enable_test_socket');
             bot.emit('connect_bot', assertThatBotIsAdded);
             bot.emit('connect_bot', assertIgnored);
         });
@@ -65,9 +59,8 @@ describe("TelepresenceBot Server",function() {
     it('Should remove bot from list of bots on disconnection.', function(done) {
         var bot = io.connect(socketURL, options);
 
-        bot.emit('enable_test_socket');
-
         bot.on('connect', function(data) {
+            bot.emit('enable_test_socket');
             bot.emit('connect_bot', function(){});
             bot.emit('disconnect_bot', assertThatBotIsRemoved);
         });
