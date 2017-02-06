@@ -34,21 +34,10 @@ var connectClient = function(socket) {
     console.log("Client connected: " + socket.id);
 }
 
-var disconnectClient = function(socket) {
-    sockets[socket.id] = undefined;
-    console.log("Client disconnected: " + socket.id);
-}
-
 var connectBot = function(bot, callback) {
     bots.addBot(bot.id);
     determineBotCallback(callback);
     console.log('Bot connected: ' + bot.id);
-}
-
-var disconnectBot = function(bot, callback) {
-    bots.removeBot(bot.id);
-    determineBotCallback(callback);
-    console.log('Bot disconnected: ' + bot.id);
 }
 
 var determineBotCallback = function(callback) {
@@ -59,4 +48,15 @@ var determineBotCallback = function(callback) {
     } else {
         callback("message");
     }
+}
+
+var disconnectBot = function(bot, callback) {
+    bots.removeBot(bot.id);
+    determineBotCallback(callback);
+    console.log('Bot disconnected: ' + bot.id);
+}
+
+var disconnectClient = function(socket) {
+    sockets[socket.id] = undefined;
+    console.log("Client disconnected: " + socket.id);
 }
