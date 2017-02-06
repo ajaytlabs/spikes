@@ -9,7 +9,7 @@ var options ={
     'force new connection': true
 };
 
-describe("TelepresenceBot Server",function() {
+describe("TelepresenceBot Server: Bot",function() {
 
     it('Should add new bot to list of bots on connection.', function(done) {
         var bot = io.connect(socketURL, options);
