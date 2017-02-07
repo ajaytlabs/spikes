@@ -2,67 +2,61 @@ var io = require('socket.io').listen(5000);
 var Bots = require("./bots.js");
 
 var bots = new Bots();
-var testSocketEnabled = false;
+var useTestClient = false;
 
-var sockets = {};
+var clients = {};
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function (client) {
 
-    connectClient(socket);
+    connectClient(client);
 
-    socket.on('enable_test_socket', function() {
-        testSocketEnabled = true;
+    client.on('enable_test_client', function() {
+        useTestClient = true;
     });
 
-    socket.on('connect_bot', function(callback) {
-        connectBot(socket, callback);
+    client.on('connect_bot', function(callback) {
+        connectBot(client, callback);
     });
 
-    socket.on('disconnect_bot', function(callback) {
-        disconnectBot(socket, callback);
+    client.on('disconnect_bot', function(callback) {
+        disconnectBot(client, callback);
     });
 
-    socket.on('disconnect', function() {
-        disconnectClient(socket);
-        disconnectBot(socket);
+    client.on('disconnect', function() {
+        disconnectClient(client);
+        disconnectBot(client);
     });
 
 });
 
-var connectClient = function(socket) {
-    sockets = socket;
-    console.log("Client connected: " + socket.id);
+var connectClient = function(client) {
+    clients = client;
+    console.log("Client connected: " + client.id);
 }
 
-var connectHuman = function(bot, callback) {
-    bots.addBot(bot.id);
+var connectBot = function(client, callback) {
+    bots.addBot(client.id);
     determineBotCallback(callback);
-    console.log('Bot connected: ' + bot.id);
-}
-
-var connectBot = function(bot, callback) {
-    bots.addBot(bot.id);
-    determineBotCallback(callback);
-    console.log('Bot connected: ' + bot.id);
+    console.log('Bot connected: ' + client.id);
 }
 
 var determineBotCallback = function(callback) {
     if(callback == undefined) {
         return;
-    } else if(testSocketEnabled) {
+    } else if(useTestClient) {
         callback(bots.bots());
     } else {
         callback("message");
     }
 }
 
-var disconnectBot = function(bot, callback) {
-    bots.removeBot(bot.id);
+var disconnectBot = function(client, callback) {
+    bots.removeBot(client.id);
     determineBotCallback(callback);
-    console.log('Bot disconnected: ' + bot.id);
+    console.log('Bot disconnected: ' + client.id);
 }
 
-var disconnectClient = function(socket) {
-    sockets[socket.id] = undefined;
-    console.log("Client disconnected: " + socket.id);
+var disconnectClient = function(client) {
+    clients[client.id] = undefined;
+    console.log("Client disconnected: " + client.id);
 }

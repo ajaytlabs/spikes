@@ -15,7 +15,7 @@ describe("TelepresenceBot Server: Bot",function() {
         var bot = io.connect(socketURL, options);
 
         bot.on('connect', function(data) {
-            bot.emit('enable_test_socket');
+            bot.emit('enable_test_client');
             bot.emit('connect_bot', assertThatBotIsAdded);
         });
 
@@ -35,7 +35,7 @@ describe("TelepresenceBot Server: Bot",function() {
         var bot = io.connect(socketURL, options);
 
         bot.on('connect', function(data) {
-            bot.emit('enable_test_socket');
+            bot.emit('enable_test_client');
             bot.emit('connect_bot', assertThatBotIsAdded);
             bot.emit('connect_bot', assertIgnored);
         });
@@ -60,7 +60,7 @@ describe("TelepresenceBot Server: Bot",function() {
         var bot = io.connect(socketURL, options);
 
         bot.on('connect', function(data) {
-            bot.emit('enable_test_socket');
+            bot.emit('enable_test_client');
             bot.emit('connect_bot', function(){});
             bot.emit('disconnect_bot', assertThatBotIsRemoved);
         });
