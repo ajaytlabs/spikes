@@ -1,7 +1,7 @@
 var io = require('socket.io').listen(5000);
-var botModule = require("./bots.js");
+var Bots = require("./bots.js");
 
-var bots = new botModule();
+var bots = new Bots();
 var testSocketEnabled = false;
 
 var sockets = {};
@@ -15,11 +15,11 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('connect_bot', function(callback) {
-        connectBot(socket, callback)
+        connectBot(socket, callback);
     })
 
     socket.on('disconnect_bot', function(callback) {
-        disconnectBot(socket, callback)
+        disconnectBot(socket, callback);
     })
 
     socket.on('disconnect', function() {
@@ -32,6 +32,12 @@ io.sockets.on('connection', function (socket) {
 var connectClient = function(socket) {
     sockets = socket;
     console.log("Client connected: " + socket.id);
+}
+
+var connectHuman = function(bot, callback) {
+    bots.addBot(bot.id);
+    determineBotCallback(callback);
+    console.log('Bot connected: ' + bot.id);
 }
 
 var connectBot = function(bot, callback) {
