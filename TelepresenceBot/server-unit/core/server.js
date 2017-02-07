@@ -16,16 +16,16 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('connect_bot', function(callback) {
         connectBot(socket, callback);
-    })
+    });
 
     socket.on('disconnect_bot', function(callback) {
         disconnectBot(socket, callback);
-    })
+    });
 
     socket.on('disconnect', function() {
         disconnectClient(socket);
         disconnectBot(socket);
-    })
+    });
 
 });
 
