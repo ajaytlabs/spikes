@@ -1,7 +1,7 @@
 var io = require('socket.io').listen(5000);
-var Bots = require("./bots.js");
+var Connections = require("./connections.js");
 
-var bots = new Bots();
+var connections = new Connections();
 var useTestClient = false;
 
 io.sockets.on('connection', function (client) {
@@ -17,7 +17,7 @@ io.sockets.on('connection', function (client) {
 
         // if bot available
         // add bot to human
-        // remove bot from bots
+        // remove bot from connections
         connectBot(client, callback);
     });
 
@@ -38,7 +38,7 @@ io.sockets.on('connection', function (client) {
 });
 
 var connectBot = function(client, callback) {
-    bots.add(client);
+    connections.addConnectionTo(client);
     determineBotCallback(callback);
     console.log('Bot connected: ' + client.id);
 }
@@ -47,14 +47,14 @@ var determineBotCallback = function(callback) {
     if(callback == undefined) {
         return;
     } else if(useTestClient) {
-        callback(bots.toArray());
+        callback(connections.toArray());
     } else {
         callback("message");
     }
 }
 
 var disconnectBot = function(client, callback) {
-    bots.remove(client);
+    connections.removeConnectionFrom(client);
     determineBotCallback(callback);
     console.log('Bot disconnected: ' + client.id);
 }

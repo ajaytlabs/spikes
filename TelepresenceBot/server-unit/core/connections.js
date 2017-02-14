@@ -4,12 +4,12 @@ function Connection() {}
 
 Connection.prototype.connectionStack = {};
 
-Connection.prototype.addConnectionFor = function(client) {
+Connection.prototype.addConnectionTo = function(client) {
     var connection = new Connection(client);
     this.connectionStack[client.id] = client;
 };
 
-Connection.prototype.removeConnectionWith = function(client) {
+Connection.prototype.removeConnectionFrom = function(client) {
     delete this.connectionStack[client.id];
 };
 

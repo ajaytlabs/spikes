@@ -8,7 +8,7 @@ describe("Connections first class collection",function() {
         var connections = new Connections();
         var mockClient = { id: 'id', data: 'data'};
 
-        connections.addConnectionFor(mockClient);
+        connections.addConnectionTo(mockClient);
 
         test.object(connections.getConnectionWith(mockClient))
             .is(mockClient);
@@ -21,8 +21,8 @@ describe("Connections first class collection",function() {
         var mockClient = { id: 'id1', data: 'data1'};
         var mockClientWithSameId = { id: 'id1', data: 'data2'};
 
-        connections.addConnectionFor(mockClient);
-        connections.addConnectionFor(mockClientWithSameId);
+        connections.addConnectionTo(mockClient);
+        connections.addConnectionTo(mockClientWithSameId);
 
         test.object(connections.getConnectionWith(mockClient))
             .is(mockClientWithSameId);
@@ -34,8 +34,8 @@ describe("Connections first class collection",function() {
         var connections = new Connections();
         var mockClient = { id: 'id', data: 'data'};
 
-        connections.addConnectionFor(mockClient);
-        connections.removeConnectionWith(mockClient);
+        connections.addConnectionTo(mockClient);
+        connections.removeConnectionFrom(mockClient);
 
         test.bool(connections.containsConnectionWith(mockClient))
             .isNotTrue();
