@@ -1,43 +1,43 @@
 var should = require('should');
 var test = require('unit.js');
-var Clients = require('../core/clients.js');
+var Connections = require('../core/connections.js');
 
-describe("Clients first class collection",function() {
+describe("Connections first class collection",function() {
 
-    it('Should add new bot to list of clients.', function(done) {
-        var clients = new Clients();
+    it('Should add new bot to list of connections.', function(done) {
+        var connections = new Connections();
         var mockClient = { id: 'id', data: 'data'};
 
-        clients.add(mockClient);
+        connections.addConnectionFor(mockClient);
 
-        test.object(clients.getClientWith(mockClient.id))
+        test.object(connections.getConnectionWith(mockClient))
             .is(mockClient);
 
         done();
     });
 
     it('Should remove previous bot when a bot with the same id is added.', function(done) {
-        var clients = new Clients();
+        var connections = new Connections();
         var mockClient = { id: 'id1', data: 'data1'};
         var mockClientWithSameId = { id: 'id1', data: 'data2'};
 
-        clients.add(mockClient);
-        clients.add(mockClientWithSameId);
+        connections.addConnectionFor(mockClient);
+        connections.addConnectionFor(mockClientWithSameId);
 
-        test.object(clients.getClientWith(mockClient.id))
+        test.object(connections.getConnectionWith(mockClient))
             .is(mockClientWithSameId);
 
         done();
     });
 
-    it('Should not contain bot when bot is removed from clients.', function(done) {
-        var clients = new Clients();
+    it('Should not contain bot when bot is removed from connections.', function(done) {
+        var connections = new Connections();
         var mockClient = { id: 'id', data: 'data'};
 
-        clients.add(mockClient);
-        clients.remove(mockClient);
+        connections.addConnectionFor(mockClient);
+        connections.removeConnectionWith(mockClient);
 
-        test.bool(clients.contains(mockClient))
+        test.bool(connections.containsConnectionWith(mockClient))
             .isNotTrue();
 
         done();
