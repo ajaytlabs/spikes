@@ -20,4 +20,12 @@ Humans.prototype.getHumanWith = function(clientId) {
     return this.humanStack[clientId];
 }
 
+Humans.prototype.toArray = function() {
+    return Object.keys(this.humanStack).map(
+        function(value) {
+            return value;
+        }
+    );
+}
+
 module.exports = Humans;
