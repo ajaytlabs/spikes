@@ -42,7 +42,7 @@ var connectClient = function(client) {
 }
 
 var connectBot = function(client, callback) {
-    bots.addBot(client.id);
+    bots.add(client.id);
     determineBotCallback(callback);
     console.log('Bot connected: ' + client.id);
 }
@@ -76,7 +76,7 @@ var determineHumanCallback = function(callback) {
 }
 
 var disconnectBot = function(client, callback) {
-    bots.removeBot(client.id);
+    bots.remove(client.id);
     determineBotCallback(callback);
     console.log('Bot disconnected: ' + client.id);
 }
