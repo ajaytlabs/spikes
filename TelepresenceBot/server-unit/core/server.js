@@ -82,6 +82,6 @@ var disconnectBot = function(client, callback) {
 }
 
 var disconnectClient = function(client) {
-    clients[client.id] = undefined;
+    delete clients[client.id];
     console.log("Client disconnected: " + client.id);
 }
