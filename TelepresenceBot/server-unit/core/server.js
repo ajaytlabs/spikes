@@ -11,8 +11,6 @@ var clients = {};
 
 io.sockets.on('connection', function (client) {
 
-    connectClient(client);
-
     client.on('enable_test_client', function() {
         useTestClient = true;
     });
@@ -30,7 +28,6 @@ io.sockets.on('connection', function (client) {
     });
 
     client.on('disconnect', function() {
-        disconnectClient(client);
         disconnectBot(client);
     });
 
@@ -80,9 +77,4 @@ var disconnectBot = function(client, callback) {
     bots.remove(client.id);
     determineBotCallback(callback);
     console.log('Bot disconnected: ' + client.id);
-}
-
-var disconnectClient = function(client) {
-    delete clients[client.id];
-    console.log("Client disconnected: " + client.id);
 }
