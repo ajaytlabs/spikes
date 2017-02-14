@@ -1,25 +1,29 @@
 function Bots() {}
 
-Bots.prototype.botStack = [];
+Bots.prototype.botStack = {};
 
 Bots.prototype.add = function(bot) {
-    if(!this.contains(bot)) {
-        this.botStack.push(bot);
-    }
+    this.botStack[bot.id] = bot;
 };
 
 Bots.prototype.remove = function(bot) {
-    if(this.contains(bot)) {
-        this.botStack.splice(this.botStack.indexOf(bot), 1);
-    }
-};
-
-Bots.prototype.bots = function() {
-    return this.botStack;
+    delete this.botStack[bot.id];
 };
 
 Bots.prototype.contains = function(bot) {
-    return this.botStack.includes(bot);
+    return this.botStack[bot.id] != undefined;
+}
+
+Bots.prototype.getBotWith = function(id) {
+    return this.botStack[id];
+}
+
+Bots.prototype.toArray = function() {
+    return Object.keys(this.botStack).map(
+        function(value) {
+            return value;
+        }
+    );
 }
 
 Bots.prototype.tryRetrieveBot = function() {
