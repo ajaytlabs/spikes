@@ -10,12 +10,25 @@ io.sockets.on('connection', function (client) {
         useTestClient = true;
     });
 
+    client.on('connect_human', function(callback) {
+        // find suitable bot.
+
+        // if no bot available, callback with error and disconnect human.
+
+        // if bot available
+        // add bot to human
+        // remove bot from bots
+        connectBot(client, callback);
+    });
+
     client.on('connect_bot', function(callback) {
         connectBot(client, callback);
     });
 
     client.on('disconnect_bot', function(callback) {
         disconnectBot(client, callback);
+
+        // notify humans potentially disconnect them with error.
     });
 
     client.on('disconnect', function() {
