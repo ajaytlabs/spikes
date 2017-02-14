@@ -22,4 +22,8 @@ Bots.prototype.contains = function(bot) {
     return this.botStack.includes(bot);
 }
 
+Bots.prototype.tryRetrieveBot = function() {
+    return this.botStack.shift();
+}
+
 module.exports = Bots;

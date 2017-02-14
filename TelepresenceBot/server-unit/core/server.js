@@ -58,10 +58,11 @@ var determineBotCallback = function(callback) {
 }
 
 var connectHuman = function(client, callback) {
-    var human = new Human(client.id, undefined);
+    var bot = bots.tryRetrieveBot();
+    var human = new Human(client.id, bot);
     humans.add(human);
     determineHumanCallback(callback);
-    console.log('Human connected: ' + client.id);
+    console.log('Human connected: clientId = ' + human.clientId + " botId = " + human.botId);
 }
 
 var determineHumanCallback = function(callback) {
