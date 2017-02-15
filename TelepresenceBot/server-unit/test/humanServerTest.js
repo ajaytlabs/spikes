@@ -31,4 +31,50 @@ describe("TelepresenceHuman Server: Human",function() {
 
     });
 
+it('Should ignore multiple connections from same human.', function(done) {
+        var human = io.connect(socketURL, options);
+
+        human.on('connect', function(data) {
+            human.emit('enable_test_client');
+            human.emit('connect_human', assertThatHumanIsAdded);
+            human.emit('connect_human', assertIgnored);
+        });
+
+        var assertThatHumanIsAdded = function(actualHuman) {
+            var expectedHuman = [human.id];
+
+            test.array(actualHuman)
+                .is(expectedHuman);
+
+            human.disconnect();
+            done();
+        }
+
+        var assertIgnored = function() {
+            throw "assert should be ignored.";
+        }
+
+    });
+
+    it('Should remove human from list of humans on disconnection.', function(done) {
+        var human = io.connect(socketURL, options);
+
+        human.on('connect', function(data) {
+            human.emit('enable_test_client');
+            human.emit('connect_human', function(){});
+            human.emit('disconnect_human', assertThatHumanIsRemoved);
+        });
+
+        var assertThatHumanIsRemoved = function(actualHuman) {
+            var expectedHuman = [];
+
+            test.array(actualHuman)
+                .is(expectedHuman);
+
+            human.disconnect();
+            done();
+        }
+
+    });
+
 });

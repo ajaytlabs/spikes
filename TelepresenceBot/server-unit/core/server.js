@@ -13,12 +13,16 @@ io.sockets.on('connection', function (client) {
         useTestClient = true;
     });
 
+    client.on('connect_bot', function(callback) {
+        connectBot(client, callback);
+    });
+
     client.on('connect_human', function(callback) {
         connectHuman(client, callback);
     });
 
-    client.on('connect_bot', function(callback) {
-        connectBot(client, callback);
+    client.on('disconnect_human', function(callback) {
+        disconnectHuman(client, callback);
     });
 
     client.on('disconnect_bot', function(callback) {
