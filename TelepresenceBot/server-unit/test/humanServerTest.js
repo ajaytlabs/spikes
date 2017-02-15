@@ -22,8 +22,8 @@ describe("TelepresenceHuman Server: Human",function() {
         var assertThatHumanIsAdded = function(actualHumans) {
             var expectedHumans = [human.id];
 
-            test.array(expectedHumans)
-                .is(actualHumans);
+            test.array(actualHumans)
+                .is(expectedHumans);
 
             human.disconnect();
             done();

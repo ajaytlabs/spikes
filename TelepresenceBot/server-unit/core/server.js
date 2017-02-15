@@ -14,7 +14,7 @@ io.sockets.on('connection', function (client) {
     });
 
     client.on('connect_human', function(callback) {
-        connectBot(client, callback);
+        connectHuman(client, callback);
     });
 
     client.on('connect_bot', function(callback) {
@@ -33,23 +33,29 @@ io.sockets.on('connection', function (client) {
 
 var connectBot = function(client, callback) {
     botClients[client.id] = client;
-    determineBotCallback(callback);
+    determineCallback(callback, botClients);
     console.log('Bot connected: ' + client.id);
 }
 
-var determineBotCallback = function(callback) {
+var determineCallback = function(callback, clients) {
     if(callback == undefined) {
         return;
     } else if(useTestClient) {
-        callback(toKeysArrayFrom(botClients));
+        callback(toKeysArrayFrom(clients));
     } else {
         callback("message");
     }
 }
 
+var connectHuman = function(client, callback) {
+    humanClients[client.id] = client;
+    determineCallback(callback, humanClients);
+    console.log('Human connected: ' + client.id);
+}
+
 var disconnectBot = function(client, callback) {
     delete botClients[client.id];
-    determineBotCallback(callback);
+    determineCallback(callback, botClients);
     console.log('Bot disconnected: ' + client.id);
 }
 
