@@ -11,8 +11,13 @@ var options ={
 
 describe("TelepresenceHuman Server: Human",function() {
 
-    it('Should add new human to list of humans on connection.', function(done) {
+    it('Should add new human to list of humans on connection when a bot is present.', function(done) {
+        var bot = io.connect(socketURL, options);
         var human = io.connect(socketURL, options);
+
+        bot.on('connect', function(data) {
+            bot.emit('connect_bot');
+        });
 
         human.on('connect', function(data) {
             human.emit('enable_test_client');
@@ -26,13 +31,19 @@ describe("TelepresenceHuman Server: Human",function() {
                 .is(expectedHumans);
 
             human.disconnect();
+            bot.disconnect();
             done();
         }
 
     });
 
 it('Should ignore multiple connections from same human.', function(done) {
+        var bot = io.connect(socketURL, options);
         var human = io.connect(socketURL, options);
+
+        bot.on('connect', function(data) {
+            bot.emit('connect_bot');
+        });
 
         human.on('connect', function(data) {
             human.emit('enable_test_client');
@@ -47,6 +58,7 @@ it('Should ignore multiple connections from same human.', function(done) {
                 .is(expectedHuman);
 
             human.disconnect();
+            bot.disconnect();
             done();
         }
 
@@ -57,7 +69,12 @@ it('Should ignore multiple connections from same human.', function(done) {
     });
 
     it('Should remove human from list of humans on disconnection.', function(done) {
+        var bot = io.connect(socketURL, options);
         var human = io.connect(socketURL, options);
+
+        bot.on('connect', function(data) {
+            bot.emit('connect_bot');
+        });
 
         human.on('connect', function(data) {
             human.emit('enable_test_client');
