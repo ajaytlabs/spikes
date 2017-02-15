@@ -22,8 +22,8 @@ describe("TelepresenceBot Server: Bot",function() {
         var assertThatBotIsAdded = function(actualBots) {
             var expectedBots = [bot.id];
 
-            test.array(expectedBots)
-                .is(actualBots);
+            test.array(actualBots)
+                .is(expectedBots);
 
             bot.disconnect();
             done();
@@ -43,8 +43,8 @@ describe("TelepresenceBot Server: Bot",function() {
         var assertThatBotIsAdded = function(actualBots) {
             var expectedBots = [bot.id];
 
-            test.array(expectedBots)
-                .is(actualBots);
+            test.array(actualBots)
+                .is(expectedBots);
 
             bot.disconnect();
             done();
@@ -68,8 +68,8 @@ describe("TelepresenceBot Server: Bot",function() {
         var assertThatBotIsRemoved = function(actualBots) {
             var expectedBots = [];
 
-            test.array(expectedBots)
-                .is(actualBots);
+            test.array(actualBots)
+                .is(expectedBots);
 
             bot.disconnect();
             done();
