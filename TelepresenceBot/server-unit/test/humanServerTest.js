@@ -37,6 +37,24 @@ describe("TelepresenceHuman Server: Human",function() {
 
     });
 
+    it('Should not add human to list of humans when a bot is absent.', function(done) {
+            var human = io.connect(socketURL, options);
+
+            bot.on('connect', function(data) {
+                bot.emit('connect_bot');
+            });
+
+            human.on('connect', function(data) {
+                human.emit('enable_test_client');
+                human.emit('connect_human', assertIgnored);
+            });
+
+            var assertIgnored = function() {
+                throw "assert should be ignored.";
+            }
+
+    });
+
 it('Should ignore multiple connections from same human.', function(done) {
         var bot = io.connect(socketURL, options);
         var human = io.connect(socketURL, options);
