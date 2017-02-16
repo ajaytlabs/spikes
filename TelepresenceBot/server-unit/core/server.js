@@ -61,11 +61,11 @@ var toKeysArrayFrom = function(objects) {
 }
 
 var connectHuman = function(client, callback) {
-    if(Object.keys(botClients).length > 0) {
+    Object.keys(botClients).forEach(function(key) {
         humanClients[client.id] = client;
         determineCallback(callback, humanClients);
         console.log('Human connected: ' + client.id);
-    }
+    });
 }
 
 var disconnectHuman = function(client, callback) {
