@@ -1,14 +1,6 @@
-function Connection(client) {
+function Connection(client, connectedTo) {
     this.client = client;
-    this.connectedTo = undefined;
-}
-
-Connection.prototype.connectTo = function(clientToConnectTo) {
-    this.connectedTo = clientToConnectTo;
-};
-
-Connection.prototype.disconnect = function() {
-    this.connectedTo = undefined;
+    this.connectedTo = connectedTo;
 }
 
 module.exports = Connection;

@@ -1,11 +1,10 @@
 var io = require('socket.io').listen(5000);
-var Connections = require("./connections.js");
+var Connection = require("./connection.js");
 
 var useTestClient = false;
 
 var botClients = {};
 var humanClients = {};
-var connections = new Connections();
 
 io.sockets.on('connection', function (client) {
 
@@ -61,11 +60,9 @@ var toKeysArrayFrom = function(objects) {
 }
 
 var connectHuman = function(client, callback) {
-    Object.keys(botClients).forEach(function(key) {
-        humanClients[client.id] = client;
-        determineCallback(callback, humanClients);
-        console.log('Human connected: ' + client.id);
-    });
+    humanClients[client.id] = client;
+    determineCallback(callback, humanClients);
+    console.log('Human connected: ' + client.id);
 }
 
 var disconnectHuman = function(client, callback) {
