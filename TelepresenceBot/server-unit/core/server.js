@@ -70,19 +70,20 @@ function connectHuman(client, callback) {
 }
 
 function findAvailableBot() {
-    return Object.keys(botClients)
-                 .map(toValues(botClients))
-                 .find(firstUnconnectedBot);
+    return toValues(botClients)
+            .find(firstUnconnectedBot());
 }
 
 function toValues(object) {
-    return function(key) {
+    return Object.keys(object).map(function(key) {
         return object[key];
-    }
+    });
 }
 
-function firstUnconnectedBot(bot) {
-    return bot.connectedTo == undefined;
+function firstUnconnectedBot() {
+    return function(bot) {
+        return bot.connectedTo == undefined;
+    }
 }
 
 function disconnectHuman(client, callback) {
