@@ -36,7 +36,8 @@ io.sockets.on('connection', function (client) {
 });
 
 var connectBot = function(client, callback) {
-    botClients[client.id] = client;
+    var bot = new Connection(client, undefined);
+    botClients[client.id] = bot;
     determineCallback(callback, botClients);
     console.log('Bot connected: ' + client.id);
 }
@@ -60,6 +61,7 @@ var toKeysArrayFrom = function(objects) {
 }
 
 var connectHuman = function(client, callback) {
+    var human = new Connection(client, undefined);
     humanClients[client.id] = client;
     determineCallback(callback, humanClients);
     console.log('Human connected: ' + client.id);
