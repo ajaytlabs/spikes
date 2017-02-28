@@ -67,8 +67,10 @@ function connectHuman(client, callback) {
         console.log('A Bot is not available');
         client.disconnect();
     } else {
-        humanClients[client.id] = client;
-        var human = new Connection(client, undefined);
+        var human = new Connection(client, bot.client.id);
+        var bot = new Connection(bot.client, client.id);
+        humanClients[client.id] = human;
+
         console.log('Bot available: ' + bot.client.id);
         console.log('Human connected: ' + client.id);
         determineCallback(callback, humanClients);
