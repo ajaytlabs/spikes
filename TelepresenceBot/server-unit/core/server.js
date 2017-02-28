@@ -61,12 +61,18 @@ function toKeysArrayFrom(objects) {
 }
 
 function connectHuman(client, callback) {
-    var human = new Connection(client, undefined);
-    humanClients[client.id] = client;
     var bot = findAvailableBot();
-    console.log('Bot available: ' + bot.client.id);
-    determineCallback(callback, humanClients);
-    console.log('Human connected: ' + client.id);
+
+    if(bot == undefined) {
+        console.log('A Bot is not available');
+        client.disconnect();
+    } else {
+        humanClients[client.id] = client;
+        var human = new Connection(client, undefined);
+        console.log('Bot available: ' + bot.client.id);
+        console.log('Human connected: ' + client.id);
+        determineCallback(callback, humanClients);
+    }
 }
 
 function findAvailableBot() {

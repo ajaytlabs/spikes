@@ -45,12 +45,14 @@ describe("TelepresenceHuman Server: Human",function() {
                 human.emit('connect_human', assertIgnored);
             });
 
-            var assertIgnored = function() {
-                throw "assert should be ignored.";
-            }
+            human.on('disconnect', function() {
+                done();
+            })
 
-            human.disconnect();
-            done();
+            var assertIgnored = function(actualHumans) {
+                throw "assert should be ignored.";
+                done();
+            }
     });
 
 it('Should ignore multiple connections from same human.', function(done) {
