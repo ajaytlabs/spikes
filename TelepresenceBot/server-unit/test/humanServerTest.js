@@ -1,6 +1,7 @@
 var should = require('should');
 var io = require('socket.io-client');
 var test = require('unit.js');
+var Connection = require("../core/connection");
 
 var socketURL = 'http://0.0.0.0:5000'
 
@@ -24,11 +25,12 @@ describe("TelepresenceHuman Server: Human",function() {
             human.emit('connect_human', assertThatHumanIsAdded);
         });
 
-        var assertThatHumanIsAdded = function(actualHumans) {
-            var expectedHumans = [human.id];
+        var assertThatHumanIsAdded = function(actualConnections) {
+            var expectedConnection = [new Connection(human.id, bot.id)];
 
-            test.array(actualHumans)
-                .is(expectedHumans);
+            test.array(actualConnections)
+                .hasLength(1)
+                .contains(expectedConnection);
 
             human.disconnect();
             bot.disconnect();
@@ -49,13 +51,13 @@ describe("TelepresenceHuman Server: Human",function() {
                 done();
             })
 
-            var assertIgnored = function(actualHumans) {
+            var assertIgnored = function(actualConnections) {
                 throw "assert should be ignored.";
                 done();
             }
     });
 
-it('Should ignore multiple connections from same human.', function(done) {
+    it('Should ignore multiple connections from same human.', function(done) {
         var bot = io.connect(socketURL, options);
         var human = io.connect(socketURL, options);
 
@@ -69,11 +71,15 @@ it('Should ignore multiple connections from same human.', function(done) {
             human.emit('connect_human', assertIgnored);
         });
 
-        var assertThatHumanIsAdded = function(actualHuman) {
-            var expectedHuman = [human.id];
+        var assertThatHumanIsAdded = function(actualConnections) {
+            var expectedConnection = [new Connection(human.id, bot.id)];
 
-            test.array(actualHuman)
-                .is(expectedHuman);
+            test.array(actualConnections)
+                .hasLength(1);
+
+            test.array(actualConnections)
+                .hasLength(1)
+                .contains(expectedConnection);
 
             human.disconnect();
             bot.disconnect();
@@ -101,10 +107,8 @@ it('Should ignore multiple connections from same human.', function(done) {
         });
 
         var assertThatHumanIsRemoved = function(actualHuman) {
-            var expectedHuman = [];
-
             test.array(actualHuman)
-                .is(expectedHuman);
+                .isEmpty();
 
             human.disconnect();
             done();

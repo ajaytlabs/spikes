@@ -53,11 +53,13 @@ function determineCallback(callback, clients) {
 }
 
 function toKeysArrayFrom(objects) {
-    return Object.keys(objects).map(
-        function(value) {
-            return value;
-        }
-    );
+    return Object.keys(objects).map(toConnectionWithOnlyIds(objects));
+}
+
+function toConnectionWithOnlyIds(objects) {
+    return function(key) {
+        return new Connection(key, objects[key].connectedTo);
+    }
 }
 
 function connectHuman(client, callback) {

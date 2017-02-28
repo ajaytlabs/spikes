@@ -1,6 +1,7 @@
 var should = require('should');
 var io = require('socket.io-client');
 var test = require('unit.js');
+var Connection = require("../core/connection");
 
 var socketURL = 'http://0.0.0.0:5000'
 
@@ -19,11 +20,12 @@ describe("TelepresenceBot Server: Bot",function() {
             bot.emit('connect_bot', assertThatBotIsAdded);
         });
 
-        var assertThatBotIsAdded = function(actualBots) {
-            var expectedBots = [bot.id];
+        var assertThatBotIsAdded = function(actualConnections) {
+            var expectedConnection = [new Connection(bot.id)];
 
-            test.array(actualBots)
-                .is(expectedBots);
+            test.array(actualConnections)
+                .hasLength(1)
+                .contains(expectedConnection);
 
             bot.disconnect();
             done();
@@ -40,11 +42,12 @@ describe("TelepresenceBot Server: Bot",function() {
             bot.emit('connect_bot', assertIgnored);
         });
 
-        var assertThatBotIsAdded = function(actualBots) {
-            var expectedBots = [bot.id];
+        var assertThatBotIsAdded = function(actualConnections) {
+            var expectedConnection = [new Connection(bot.id)];
 
-            test.array(actualBots)
-                .is(expectedBots);
+            test.array(actualConnections)
+                .hasLength(1)
+                .contains(expectedConnection);
 
             bot.disconnect();
             done();
@@ -65,11 +68,9 @@ describe("TelepresenceBot Server: Bot",function() {
             bot.emit('disconnect_bot', assertThatBotIsRemoved);
         });
 
-        var assertThatBotIsRemoved = function(actualBots) {
-            var expectedBots = [];
-
-            test.array(actualBots)
-                .is(expectedBots);
+        var assertThatBotIsRemoved = function(actualConnections) {
+            test.array(actualConnections)
+                .isEmpty();
 
             bot.disconnect();
             done();
