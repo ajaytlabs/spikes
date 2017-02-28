@@ -63,8 +63,26 @@ var toKeysArrayFrom = function(objects) {
 var connectHuman = function(client, callback) {
     var human = new Connection(client, undefined);
     humanClients[client.id] = client;
+    var bot = findAvailableBot();
+    console.log('Bot available: ' + bot.client.id);
     determineCallback(callback, humanClients);
     console.log('Human connected: ' + client.id);
+}
+
+var findAvailableBot = function() {
+    return Object.keys(botClients)
+                 .map(toValues(botClients))
+                 .find(firstUnconnectedBot);
+}
+
+var toValues = function(object) {
+    return function(key) {
+        return object[key];
+    }
+}
+
+var firstUnconnectedBot = function(bot) {
+    return bot.connectedTo == undefined;
 }
 
 var disconnectHuman = function(client, callback) {
