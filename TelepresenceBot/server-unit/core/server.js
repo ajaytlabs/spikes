@@ -35,14 +35,14 @@ io.sockets.on('connection', function (client) {
 
 });
 
-var connectBot = function(client, callback) {
+function connectBot(client, callback) {
     var bot = new Connection(client, undefined);
     botClients[client.id] = bot;
     determineCallback(callback, botClients);
     console.log('Bot connected: ' + client.id);
 }
 
-var determineCallback = function(callback, clients) {
+function determineCallback(callback, clients) {
     if(callback == undefined) {
         return;
     } else if(useTestClient) {
@@ -52,7 +52,7 @@ var determineCallback = function(callback, clients) {
     }
 }
 
-var toKeysArrayFrom = function(objects) {
+function toKeysArrayFrom(objects) {
     return Object.keys(objects).map(
         function(value) {
             return value;
@@ -60,7 +60,7 @@ var toKeysArrayFrom = function(objects) {
     );
 }
 
-var connectHuman = function(client, callback) {
+function connectHuman(client, callback) {
     var human = new Connection(client, undefined);
     humanClients[client.id] = client;
     var bot = findAvailableBot();
@@ -69,23 +69,23 @@ var connectHuman = function(client, callback) {
     console.log('Human connected: ' + client.id);
 }
 
-var findAvailableBot = function() {
+function findAvailableBot() {
     return Object.keys(botClients)
                  .map(toValues(botClients))
                  .find(firstUnconnectedBot);
 }
 
-var toValues = function(object) {
+function toValues(object) {
     return function(key) {
         return object[key];
     }
 }
 
-var firstUnconnectedBot = function(bot) {
+function firstUnconnectedBot(bot) {
     return bot.connectedTo == undefined;
 }
 
-var disconnectHuman = function(client, callback) {
+function disconnectHuman(client, callback) {
     if(humanClients[client.id] != undefined) {
         delete humanClients[client.id];
         determineCallback(callback, humanClients);
@@ -93,7 +93,7 @@ var disconnectHuman = function(client, callback) {
     }
 }
 
-var disconnectBot = function(client, callback) {
+function disconnectBot(client, callback) {
     if(botClients[client.id] != undefined) {
         delete botClients[client.id];
         determineCallback(callback, botClients);
