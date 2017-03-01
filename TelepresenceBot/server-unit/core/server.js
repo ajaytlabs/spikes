@@ -18,6 +18,15 @@ io.sockets.on('connection', function (client) {
         connectHuman(client);
     });
 
+    client.on('move_in', function(direction) {
+        var humanConnection = humanClients[client.id];
+
+        if(humanConnection.connectedTo != undefined) {
+            var botConnectedWith = botClients[humanConnection.connectedTo].client;
+            botConnectedWith.emit('move_in', direction);
+        }
+    });
+
     client.on('disconnect', function() {
         disconnectHuman(client);
         disconnectBot(client);

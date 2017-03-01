@@ -102,4 +102,27 @@ describe("TelepresenceHuman Server: Human",function() {
         });
     });
 
+    it('Should notify bot of direction when ', function(done) {
+        var bot = io.connect(socketURL, options);
+        var testObserver = io.connect(socketURL, options);
+
+        bot.on('connect', function(data) {
+            bot.emit('connect_bot');
+
+            testObserver.on('connect_bot', function(data) {
+                human.emit('connect_human');
+            });
+
+            testObserver.on('connect_human', function(data) {
+                human.emit('move_in', 'forward');
+            });
+
+            bot.on('move_in', function(direction) {
+                test.string(direction)
+                    .is('forward');
+                done();
+            });
+        });
+    });
+
 });
