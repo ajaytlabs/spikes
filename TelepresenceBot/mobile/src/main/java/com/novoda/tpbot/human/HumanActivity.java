@@ -47,8 +47,11 @@ public class HumanActivity extends AppCompatActivity implements HumanView {
     private final CommandRepeater.Listener commandRepeatedListener = new CommandRepeater.Listener() {
         @Override
         public void onCommandRepeated(String command) {
+            if(!command.isEmpty()) {
+                Direction direction = Direction.from(command);
+                presenter.sendDirection(direction);
+            }
             debugView.showTimed(command);
-            // TODO: send command to the receiver (bot) part
         }
     };
 

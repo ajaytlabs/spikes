@@ -35,9 +35,7 @@ class SocketIOTpService implements BotTpService {
     public Observable<Result> connectTo(String serverAddress) {
         try {
             URL url = new URL(serverAddress);
-            socket = IO.socket(url.toExternalForm(), new IO.Options() {
-
-            });
+            socket = IO.socket(url.toExternalForm());
         } catch (MalformedURLException | URISyntaxException exception) {
             MalformedServerAddressException exceptionWithUserFacingMessage = new MalformedServerAddressException(exception);
             return Observable.just(Result.from(exceptionWithUserFacingMessage));

@@ -6,7 +6,6 @@ import com.novoda.tpbot.Result;
 
 import io.socket.client.Ack;
 import io.socket.client.Socket;
-import io.socket.client.SocketIOException;
 import io.socket.emitter.Emitter;
 
 import static io.socket.client.Socket.EVENT_CONNECT_ERROR;
@@ -57,7 +56,11 @@ public class SocketConnectionObservable extends Observable<Result> {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    notifyOf(Result.from(new SocketIOException("connection timeout")));
+                    if (socket.connected()) {
+                        socket.disconnect();
+                    }
+
+                    socket.connect();
                 }
             });
         }

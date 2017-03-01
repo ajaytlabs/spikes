@@ -10,28 +10,32 @@ io.sockets.on('connection', function (client) {
 
     console.log('connecting: ' + client.id);
 
-    client.on('connect_bot', function() {
+    client.on('join_as_bot', function(callback, acknowledgement) {
         connectBot(client);
+        acknowledgement('bot connected: ' + client.id);
     });
 
-    client.on('connect_human', function() {
+    client.on('join_as_human', function(callback, acknowledgement) {
         connectHuman(client);
+        acknowledgement('human connected: ' + client.id);
     });
 
     client.on('move_in', function(direction) {
         var humanConnection = humanClients[client.id];
 
         if(humanConnection.connectedTo != undefined) {
+            console.log('move_in', direction);
             var botConnectedWith = botClients[humanConnection.connectedTo].client;
-            botConnectedWith.emit('move_in', direction);
+            io.sockets.emit('move_in', direction);
+            console.log('sendingTo: ', botConnectedWith.id);
         }
     });
 
     client.on('disconnect', function() {
+        console.log('disconnecting: ' + client.id);
         disconnectHuman(client);
         disconnectBot(client);
 
-        console.log(toKeysArrayFrom(botClients));
         io.sockets.emit('disconnect_human', toKeysArrayFrom(humanClients));
         io.sockets.emit('disconnect_bot', toKeysArrayFrom(botClients));
     });
