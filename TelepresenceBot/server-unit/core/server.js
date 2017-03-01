@@ -19,25 +19,9 @@ io.sockets.on('connection', function (client) {
     });
 
     client.on('disconnect', function() {
-        console.log('disconnecting: ' + client.id);
+        disconnectHuman(client);
+        disconnectBot(client);
 
-        var human = humanClients[client.id];
-        if(human != undefined) {
-            delete humanClients[client.id];
-            if(human.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
-                var bot = botClients[human.connectedTo];
-                bot.client.disconnect();
-            }
-        }
-
-        var bot = botClients[client.id];
-        if(bot != undefined) {
-            delete botClients[client.id];
-            if(bot.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
-                var human = humanClients[bot.connectedTo];
-                human.client.disconnect();
-            }
-        }
         console.log(toKeysArrayFrom(botClients));
         io.sockets.emit('disconnect_human', toKeysArrayFrom(humanClients));
         io.sockets.emit('disconnect_bot', toKeysArrayFrom(botClients));
@@ -45,7 +29,7 @@ io.sockets.on('connection', function (client) {
 
 });
 
-function connectBot(client, callback) {
+function connectBot(client) {
     var bot = new Connection(client, undefined);
     botClients[client.id] = bot;
     console.log('Bot connected: ' + client.id);
@@ -62,7 +46,7 @@ function toConnectionWithOnlyIds(objects) {
     }
 }
 
-function connectHuman(client, callback) {
+function connectHuman(client) {
     var bot = findAvailableBot();
 
     if(bot == undefined) {
@@ -75,6 +59,28 @@ function connectHuman(client, callback) {
         humanClients[client.id] = human;
         console.log('Human connected: ' + client.id);
         io.sockets.emit('connect_human', toKeysArrayFrom(humanClients));
+    }
+}
+
+function disconnectHuman(client) {
+    var human = humanClients[client.id];
+    if(human != undefined) {
+        delete humanClients[client.id];
+        if(human.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
+            var bot = botClients[human.connectedTo];
+            bot.client.disconnect();
+        }
+    }
+}
+
+function disconnectBot(client) {
+    var bot = botClients[client.id];
+    if(bot != undefined) {
+        delete botClients[client.id];
+        if(bot.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
+            var human = humanClients[bot.connectedTo];
+            human.client.disconnect();
+        }
     }
 }
 
