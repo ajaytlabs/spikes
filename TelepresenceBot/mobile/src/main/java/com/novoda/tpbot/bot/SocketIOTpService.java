@@ -58,7 +58,7 @@ class SocketIOTpService implements BotTpService {
                 return this;
             }
 
-            socket.on(Event.DIRECTION.rawEvent(), directionListener);
+            socket.on(Event.MOVE_IN.rawEvent(), directionListener);
             return this;
         }
 
