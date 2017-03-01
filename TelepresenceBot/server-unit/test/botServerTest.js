@@ -12,74 +12,65 @@ var options ={
 
 describe("TelepresenceBot Server: Bot",function() {
 
-    it('Should add new bot to list of bots on connection.', function(done) {
-        var bot = io.connect(socketURL, options);
-        var testObserver = io.connect(socketURL, options);
+    var bot;
 
-        bot.on('connect', function(data) {
-            bot.emit('connect_bot');
-            testObserver.emit('test_fetch_bots', assertThatBotIsAdded);
-        });
-
-        var assertThatBotIsAdded = function(actualConnections) {
-            var expectedConnection = [new Connection(bot.id)];
-
-            test.array(actualConnections)
-                .hasLength(1)
-                .contains(expectedConnection);
-
-            bot.disconnect();
+    beforeEach(function(done) {
+        bot = io.connect(socketURL, options);
+        bot.on('connect', function() {
+            console.log('bot_connected...');
             done();
-        }
-
+        });
+        bot.on('disconnect', function(){
+            console.log('bot_disconnected...');
+        });
     });
 
-    it('Should ignore multiple connections from same bot.', function(done) {
+    afterEach(function(done) {
+        if(bot.connected) {
+            console.log('bot_disconnecting...');
+            bot.disconnect();
+        }
+        done();
+    });
+
+    it('Should add new bot to list of bots on connection.', function(done) {
         var bot = io.connect(socketURL, options);
 
-        bot.on('connect', function(data) {
-            bot.emit('enable_test_client');
-            bot.emit('connect_bot');
+        bot.on('connect', function(actualConnections) {
             bot.emit('connect_bot');
 
-            var testObserver = io.connect(socketURL, options);
+            bot.on('connect_bot', function(actualConnections) {
+                var expectedConnection = [new Connection(bot.id, undefined)];
 
-            testObserver.on('connect', function(data) {
-                testObserver.emit('test_fetch_bots', assertThatBotIsAdded);
-            });
-
-            var assertThatBotIsAdded = function(actualConnections) {
-                var expectedConnection = [new Connection(bot.id)];
                 test.array(actualConnections)
                     .hasLength(1)
                     .contains(expectedConnection);
 
                 bot.disconnect();
                 done();
-            }
+            });
         });
     });
 
     it('Should remove bot from list of bots on disconnection.', function(done) {
         var bot = io.connect(socketURL, options);
+        var testObserver = io.connect(socketURL, options);
 
         bot.on('connect', function(data) {
-            bot.emit('enable_test_client');
             bot.emit('connect_bot');
-            bot.disconnect();
 
-            var testObserver = io.connect(socketURL, options);
-            testObserver.on('connect', function(data) {
-                testObserver.emit('test_fetch_bots', assertThatBotIsRemoved);
+            testObserver.on('connect_bot', function(data) {
+                bot.disconnect();
             });
 
-            var assertThatBotIsRemoved = function(actualConnections) {
+            testObserver.on('disconnect_bot', function(actualConnections) {
+                console.log(actualConnections);
                 test.array(actualConnections)
                     .isEmpty();
 
-                bot.disconnect();
+                testObserver.disconnect();
                 done();
-            }
+            });
         });
 
     });

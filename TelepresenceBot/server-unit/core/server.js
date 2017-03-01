@@ -38,7 +38,7 @@ io.sockets.on('connection', function (client) {
                 human.client.disconnect();
             }
         }
-
+        console.log(toKeysArrayFrom(botClients));
         io.sockets.emit('disconnect_human', toKeysArrayFrom(humanClients));
         io.sockets.emit('disconnect_bot', toKeysArrayFrom(botClients));
     });

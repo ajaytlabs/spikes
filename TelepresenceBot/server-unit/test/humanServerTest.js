@@ -94,8 +94,6 @@ describe("TelepresenceHuman Server: Human",function() {
 
 
             testObserver.on('disconnect_human', function(actualConnections) {
-                var expectedConnection = [new Connection(human.id, bot.id)];
-
                 test.array(actualConnections)
                     .isEmpty();
 
