@@ -91,8 +91,6 @@ describe("TelepresenceHuman Server: Human",function() {
                 human.disconnect();
             });
 
-
-
             testObserver.on('disconnect_human', function(actualConnections) {
                 test.array(actualConnections)
                     .isEmpty();
@@ -103,4 +101,5 @@ describe("TelepresenceHuman Server: Human",function() {
             });
         });
     });
+
 });
