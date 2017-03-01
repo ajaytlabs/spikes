@@ -8,14 +8,7 @@ var humanClients = {};
 
 io.sockets.on('connection', function (client) {
 
-    client.on('test_fetch_bots', function(callback) {
-        callback(toKeysArrayFrom(botClients));
-    })
-
-    client.on('test_fetch_humans', function(callback) {
-        console.log('test_fetch_humans');
-        callback(toKeysArrayFrom(humanClients));
-    })
+    console.log('connecting: ' + client.id);
 
     client.on('connect_bot', function() {
         connectBot(client);
@@ -26,21 +19,28 @@ io.sockets.on('connection', function (client) {
     });
 
     client.on('disconnect', function() {
+        console.log('disconnecting: ' + client.id);
+
         var human = humanClients[client.id];
-        if(human != undefined && human.connectedTo != undefined) {
-            var bot = botClients[human.connectedTo];
-            botClients[bot.client.id] = new Connection(bot, undefined);
+        if(human != undefined) {
+            delete humanClients[client.id];
+            if(human.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
+                var bot = botClients[human.connectedTo];
+                bot.client.disconnect();
+            }
         }
 
         var bot = botClients[client.id];
-        if(bot != undefined && bot.connectedTo != undefined) {
-            humanClients[bot.connectedTo].disconnect();
+        if(bot != undefined) {
+            delete botClients[client.id];
+            if(bot.connectedTo != undefined && botClients[human.connectedTo] != undefined) {
+                var human = humanClients[bot.connectedTo];
+                human.client.disconnect();
+            }
         }
 
-        delete humanClients[client.id];
-        delete botClients[client.id];
-
-        console.log('disconnected: ' + client.id);
+        io.sockets.emit('disconnect_human', toKeysArrayFrom(humanClients));
+        io.sockets.emit('disconnect_bot', toKeysArrayFrom(botClients));
     });
 
 });
@@ -49,6 +49,7 @@ function connectBot(client, callback) {
     var bot = new Connection(client, undefined);
     botClients[client.id] = bot;
     console.log('Bot connected: ' + client.id);
+    io.sockets.emit('connect_bot', toKeysArrayFrom(botClients));
 }
 
 function toKeysArrayFrom(objects) {
@@ -67,12 +68,13 @@ function connectHuman(client, callback) {
     if(bot == undefined) {
         client.disconnect();
     } else {
+        console.log('Bot available: ' + bot.client.id);
+
         var human = new Connection(client, bot.client.id);
         var bot = new Connection(bot.client, client.id);
         humanClients[client.id] = human;
-
-        console.log('Bot available: ' + bot.client.id);
         console.log('Human connected: ' + client.id);
+        io.sockets.emit('connect_human', toKeysArrayFrom(humanClients));
     }
 }
 
