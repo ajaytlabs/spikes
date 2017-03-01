@@ -8,29 +8,39 @@ var humanClients = {};
 
 io.sockets.on('connection', function (client) {
 
-    client.on('enable_test_client', function() {
-        useTestClient = true;
+    client.on('test_fetch_bots', function(callback) {
+        callback(toKeysArrayFrom(botClients));
+    })
+
+    client.on('test_fetch_humans', function(callback) {
+        console.log('test_fetch_humans');
+        callback(toKeysArrayFrom(humanClients));
+    })
+
+    client.on('connect_bot', function() {
+        connectBot(client);
     });
 
-    client.on('connect_bot', function(callback) {
-        connectBot(client, callback);
-    });
-
-    client.on('connect_human', function(callback) {
-        connectHuman(client, callback);
-    });
-
-    client.on('disconnect_human', function(callback) {
-        disconnectHuman(client, callback);
-    });
-
-    client.on('disconnect_bot', function(callback) {
-        disconnectBot(client, callback);
+    client.on('connect_human', function() {
+        connectHuman(client);
     });
 
     client.on('disconnect', function() {
-        disconnectBot(client);
-        disconnectHuman(client);
+        var human = humanClients[client.id];
+        if(human != undefined && human.connectedTo != undefined) {
+            var bot = botClients[human.connectedTo];
+            botClients[bot.client.id] = new Connection(bot, undefined);
+        }
+
+        var bot = botClients[client.id];
+        if(bot != undefined && bot.connectedTo != undefined) {
+            humanClients[bot.connectedTo].disconnect();
+        }
+
+        delete humanClients[client.id];
+        delete botClients[client.id];
+
+        console.log('disconnected: ' + client.id);
     });
 
 });
@@ -38,18 +48,7 @@ io.sockets.on('connection', function (client) {
 function connectBot(client, callback) {
     var bot = new Connection(client, undefined);
     botClients[client.id] = bot;
-    determineCallback(callback, botClients);
     console.log('Bot connected: ' + client.id);
-}
-
-function determineCallback(callback, clients) {
-    if(callback == undefined) {
-        return;
-    } else if(useTestClient) {
-        callback(toKeysArrayFrom(clients));
-    } else {
-        callback("message");
-    }
 }
 
 function toKeysArrayFrom(objects) {
@@ -66,7 +65,6 @@ function connectHuman(client, callback) {
     var bot = findAvailableBot();
 
     if(bot == undefined) {
-        console.log('A Bot is not available');
         client.disconnect();
     } else {
         var human = new Connection(client, bot.client.id);
@@ -75,7 +73,6 @@ function connectHuman(client, callback) {
 
         console.log('Bot available: ' + bot.client.id);
         console.log('Human connected: ' + client.id);
-        determineCallback(callback, humanClients);
     }
 }
 
@@ -93,21 +90,5 @@ function toValues(object) {
 function firstUnconnectedBot() {
     return function(bot) {
         return bot.connectedTo == undefined;
-    }
-}
-
-function disconnectHuman(client, callback) {
-    if(humanClients[client.id] != undefined) {
-        delete humanClients[client.id];
-        determineCallback(callback, humanClients);
-        console.log('Human disconnected: ' + client.id);
-    }
-}
-
-function disconnectBot(client, callback) {
-    if(botClients[client.id] != undefined) {
-        delete botClients[client.id];
-        determineCallback(callback, botClients);
-        console.log('Bot disconnected: ' + client.id);
     }
 }

@@ -18,43 +18,51 @@ describe("TelepresenceHuman Server: Human",function() {
 
         bot.on('connect', function(data) {
             bot.emit('connect_bot');
+            human.emit('connect_human');
+
+            var testObserver = io.connect(socketURL, options);
+
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_humans', assertThatHumanIsAdded);
+            })
+
+            var assertThatHumanIsAdded = function(actualConnections) {
+                var expectedConnection = [new Connection(human.id, bot.id)];
+
+                test.array(actualConnections)
+                    .hasLength(1)
+                    .contains(expectedConnection);
+
+                human.disconnect();
+                bot.disconnect();
+                testObserver.disconnect();
+                done();
+            }
         });
-
-        human.on('connect', function(data) {
-            human.emit('enable_test_client');
-            human.emit('connect_human', assertThatHumanIsAdded);
-        });
-
-        var assertThatHumanIsAdded = function(actualConnections) {
-            var expectedConnection = [new Connection(human.id, bot.id)];
-
-            test.array(actualConnections)
-                .hasLength(1)
-                .contains(expectedConnection);
-
-            human.disconnect();
-            bot.disconnect();
-            done();
-        }
-
     });
 
     it('Should not add human to list of humans when a bot is absent.', function(done) {
-            var human = io.connect(socketURL, options);
+        var human = io.connect(socketURL, options);
 
-            human.on('connect', function(data) {
-                human.emit('enable_test_client');
-                human.emit('connect_human', assertIgnored);
-            });
+        human.on('connect', function(data) {
+            human.emit('enable_test_client');
+            human.emit('connect_human');
 
-            human.on('disconnect', function() {
-                done();
+            var testObserver = io.connect(socketURL, options);
+
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_humans', assertNoHumansAdded);
             })
 
-            var assertIgnored = function(actualConnections) {
-                throw "assert should be ignored.";
+            var assertNoHumansAdded = function(actualConnections) {
+                test.array(actualConnections)
+                    .isEmpty();
+
+                human.disconnect();
+                testObserver.disconnect();
                 done();
             }
+        });
     });
 
     it('Should ignore multiple connections from same human.', function(done) {
@@ -63,33 +71,28 @@ describe("TelepresenceHuman Server: Human",function() {
 
         bot.on('connect', function(data) {
             bot.emit('connect_bot');
+            human.emit('connect_human');
+            human.emit('connect_human');
+
+            var testObserver = io.connect(socketURL, options);
+
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_humans', assertThatHumanIsAdded);
+            });
+
+            var assertThatHumanIsAdded = function(actualConnections) {
+                var expectedConnection = [new Connection(human.id, bot.id)];
+
+                test.array(actualConnections)
+                    .hasLength(1)
+                    .contains(expectedConnection);
+
+                human.disconnect();
+                bot.disconnect();
+                testObserver.disconnect();
+                done();
+            }
         });
-
-        human.on('connect', function(data) {
-            human.emit('enable_test_client');
-            human.emit('connect_human', assertThatHumanIsAdded);
-            human.emit('connect_human', assertIgnored);
-        });
-
-        var assertThatHumanIsAdded = function(actualConnections) {
-            var expectedConnection = [new Connection(human.id, bot.id)];
-
-            test.array(actualConnections)
-                .hasLength(1);
-
-            test.array(actualConnections)
-                .hasLength(1)
-                .contains(expectedConnection);
-
-            human.disconnect();
-            bot.disconnect();
-            done();
-        }
-
-        var assertIgnored = function() {
-            throw "assert should be ignored.";
-        }
-
     });
 
     it('Should remove human from list of humans on disconnection.', function(done) {
@@ -98,22 +101,26 @@ describe("TelepresenceHuman Server: Human",function() {
 
         bot.on('connect', function(data) {
             bot.emit('connect_bot');
-        });
-
-        human.on('connect', function(data) {
-            human.emit('enable_test_client');
-            human.emit('connect_human', function(){});
-            human.emit('disconnect_human', assertThatHumanIsRemoved);
-        });
-
-        var assertThatHumanIsRemoved = function(actualHuman) {
-            test.array(actualHuman)
-                .isEmpty();
+            human.emit('connect_human');
 
             human.disconnect();
-            done();
-        }
 
+            var testObserver = io.connect(socketURL, options);
+
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_humans', assertThatHumanIsRemoved);
+            })
+
+            var assertThatHumanIsRemoved = function(actualConnections) {
+                var expectedConnection = [new Connection(human.id, bot.id)];
+
+                test.array(actualConnections)
+                    .isEmpty();
+
+                bot.disconnect();
+                testObserver.disconnect();
+                done();
+            }
+        });
     });
-
 });

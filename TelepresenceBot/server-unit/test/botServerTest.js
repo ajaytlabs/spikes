@@ -14,10 +14,11 @@ describe("TelepresenceBot Server: Bot",function() {
 
     it('Should add new bot to list of bots on connection.', function(done) {
         var bot = io.connect(socketURL, options);
+        var testObserver = io.connect(socketURL, options);
 
         bot.on('connect', function(data) {
-            bot.emit('enable_test_client');
-            bot.emit('connect_bot', assertThatBotIsAdded);
+            bot.emit('connect_bot');
+            testObserver.emit('test_fetch_bots', assertThatBotIsAdded);
         });
 
         var assertThatBotIsAdded = function(actualConnections) {
@@ -38,25 +39,25 @@ describe("TelepresenceBot Server: Bot",function() {
 
         bot.on('connect', function(data) {
             bot.emit('enable_test_client');
-            bot.emit('connect_bot', assertThatBotIsAdded);
-            bot.emit('connect_bot', assertIgnored);
+            bot.emit('connect_bot');
+            bot.emit('connect_bot');
+
+            var testObserver = io.connect(socketURL, options);
+
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_bots', assertThatBotIsAdded);
+            });
+
+            var assertThatBotIsAdded = function(actualConnections) {
+                var expectedConnection = [new Connection(bot.id)];
+                test.array(actualConnections)
+                    .hasLength(1)
+                    .contains(expectedConnection);
+
+                bot.disconnect();
+                done();
+            }
         });
-
-        var assertThatBotIsAdded = function(actualConnections) {
-            var expectedConnection = [new Connection(bot.id)];
-
-            test.array(actualConnections)
-                .hasLength(1)
-                .contains(expectedConnection);
-
-            bot.disconnect();
-            done();
-        }
-
-        var assertIgnored = function() {
-            throw "assert should be ignored.";
-        }
-
     });
 
     it('Should remove bot from list of bots on disconnection.', function(done) {
@@ -64,17 +65,22 @@ describe("TelepresenceBot Server: Bot",function() {
 
         bot.on('connect', function(data) {
             bot.emit('enable_test_client');
-            bot.emit('connect_bot', function(){});
-            bot.emit('disconnect_bot', assertThatBotIsRemoved);
-        });
-
-        var assertThatBotIsRemoved = function(actualConnections) {
-            test.array(actualConnections)
-                .isEmpty();
-
+            bot.emit('connect_bot');
             bot.disconnect();
-            done();
-        }
+
+            var testObserver = io.connect(socketURL, options);
+            testObserver.on('connect', function(data) {
+                testObserver.emit('test_fetch_bots', assertThatBotIsRemoved);
+            });
+
+            var assertThatBotIsRemoved = function(actualConnections) {
+                test.array(actualConnections)
+                    .isEmpty();
+
+                bot.disconnect();
+                done();
+            }
+        });
 
     });
 
