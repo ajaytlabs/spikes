@@ -33,6 +33,7 @@ android {
 
 dependencies {
     compile libraries.accessibilitools
+    compile libraries.recyclerView
 
     debugCompile project(':extras')
     androidTestCompile(project(':core')) {
