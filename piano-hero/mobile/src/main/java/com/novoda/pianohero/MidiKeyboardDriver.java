@@ -31,9 +31,10 @@ interface MidiKeyboardDriver {
                 int channel,
                 int note,
                 int velocity) {
-            if (noteListener != null) {
-                noteListener.onPress(new Note(note));
+            if (noteListener == null) {
+                return;
             }
+            noteListener.onPress(new Note(note));
         }
 
         @Override
@@ -43,9 +44,10 @@ interface MidiKeyboardDriver {
                 int channel,
                 int note,
                 int velocity) {
-            if (noteListener != null) {
-                noteListener.onRelease(new Note(note));
+            if (noteListener == null) {
+                return;
             }
+            noteListener.onRelease(new Note(note));
         }
     }
 }
