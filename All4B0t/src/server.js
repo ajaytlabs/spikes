@@ -1,6 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import All4 from './src/all4.js'
+import All4 from './all4.js'
 
 const all4 = new All4()
 const app = express()

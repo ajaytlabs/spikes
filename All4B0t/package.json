@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js --exec babel-node",
+    "start": "nodemon src/server.js --exec babel-node",
     "test": "babel-node test/run.js",
     "babel": "babel src -d dist",
     "lint": "eslint --ext .js src"
