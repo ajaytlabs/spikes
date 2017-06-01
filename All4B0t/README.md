@@ -1,15 +1,27 @@
 All4B0t
-====
+===
 
 This is a two weeks experimentation on a chat bot (google home, slack...) for All 4 using api.ai
 
-Deploying to AWS Lambda
-=====
+Debugging locally
+---
 
-`./gradlew build`
+In one terminal  
+`> npm run server`
+
+In another one   
+`> npm run client`
+
+On the client you can now type as if you were talking to the bot.  
+Your message if going to be sent to `api.ai` to be interpreted and then the response is sent to your local server server which should respond accordingly.  
+
+Deploying to AWS Lambda
+---
+
+`> ./gradlew build`
 
 ```
-aws lambda create-function \
+> aws lambda create-function \
 --region eu-west-1 \
 --function-name All4B0t  \
 --zip-file fileb://build/distributions/All4B0t-1.0.zip \
@@ -27,10 +39,10 @@ You can then feed the url to your bot on api.ai in `Fulfillement`, don't forget 
 
 And whenever you need to re-deploy:
 
-`./gradlew build`
+`> ./gradlew build`
 
 ```
-aws lambda update-function-code \
+> aws lambda update-function-code \
 --region eu-west-1 \
 --function-name All4B0t  \
 --zip-file fileb://build/distributions/All4B0t-1.0.zip \
